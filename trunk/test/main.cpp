@@ -5,5 +5,5 @@ using namespace std;
 void main()
 {
 	CubeIO cubeio;
-	cubeio.getInput();
+	cubeio.getInput(); //test
 }
