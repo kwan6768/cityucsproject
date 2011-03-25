@@ -5,7 +5,6 @@
  */
 package picross;
 
-import java.awt.Dimension;
 import java.util.Vector;
 /**
  *  
@@ -25,10 +24,14 @@ public class ChessController {
 	bClear Indicate the game board is finished.*/
 	private boolean bClear;
 	
+	private Player player;
+	
 	/**  
-    
-	chessUI Store the chessUI instance.*/
+     * chessUI Store the chessUI instance.
+     */
 	private ChessUI chessUI;
+	
+	private MainMenuController mainMenuController;
 
     /**  
     
@@ -38,11 +41,11 @@ public class ChessController {
     /**  
     
 	topTipsCells Store the tips on the top of the game board.*/
-	private Vector<TopTipsCells> topTipsCells = new Vector<TopTipsCells>();
+	private Vector<TipsCell> topTipsCells = new Vector<TipsCell>();
     /**  
     
 	leftTipsCells Store the tips on the left of the game board.*/
-	private Vector<LeftTipsCells> leftTipsCells = new Vector<LeftTipsCells>();
+	private Vector<TipsCell> leftTipsCells = new Vector<TipsCell>();
 	
 	/**
 	 * pRow store the previous row user clicked
@@ -54,7 +57,10 @@ public class ChessController {
 	 */
 	private int pCol;
 	
-	private int hp;
+	private boolean isSelectedOnRC;
+	//private String pClickType;
+	
+	//private int hp;
 	
     /**
      * Construct a control class to control the screen and a game board by initialing cell's array, topTipsCells and leftTipsCells.
@@ -64,23 +70,33 @@ public class ChessController {
      * @param cellSize Indicate the size of each cell which used for painting.
      * @param chessUI Indicate the UI to put the game board.
      */
-	public ChessController(int cellRows, int cellCols, int[][] ans, int cellSize, ChessUI chessUI){
-		this.chessUI = chessUI;
-		
+	public ChessController(int cellSize, int[][] ans, MainMenuController mainMenuController, StageController stageController){
 		bClear = false;
+		isSelectedOnRC = false;
 		pRow = -1;
 		pCol = -1;
-		hp = 5;
+		
+		this.mainMenuController = mainMenuController;
+		chessUI = new ChessUI(cellSize, ans, this);
+		chessUI.getCmd();
+		
+		if (mainMenuController != null) {
+			//mainMenuUI.dispose();
+			mainMenuController.setVisible(false);
+		}
+		
+		if (stageController != null){
+			stageController.dispose();
+		}
+		
+		player = new Player(5);
 		
 		// init cell inside chess
-		cells = new Cell[cellRows][cellCols];
-	    for ( int row=0; row<cellRows; row++) {
-	    	for ( int col=0; col<cellCols; col++ ) {
-	    		cells[row][col] = new Cell(ans[row][col]==1 ? true : false);
-	    	}
-	    }
-	    
-	    // init left tips cell outside chess
+		
+	    cells = initCells(ans);
+	    initLeftTipsCells(ans, leftTipsCells);	// init left tips cell outside chess
+	    initTopTipsCells(ans, topTipsCells);	// init top tips cell outside chess
+	    /*
 	    for ( int row=0; row<cellRows; row++) {
 	    	int tipsNum = 0;
 	    	int tipsRow = row + 1;
@@ -93,7 +109,7 @@ public class ChessController {
 	    		} 
 	    		
     			if (tipsNum>0 && (ans[row][col] == 0 || col == 0)) {
-	    			LeftTipsCells tipsCell = new LeftTipsCells(tipsRow, tipsCol++, tipsNum);
+	    			TipsCell tipsCell = new TipsCell(tipsRow, tipsCol++, tipsNum);
 	    			leftTipsCells.add(tipsCell);
 	    			tipsNum = 0;
 	    			hvTips = true;
@@ -101,7 +117,7 @@ public class ChessController {
 	    	}
 	    	
 	    	if (!hvTips){
-	    		LeftTipsCells tipsCell = new LeftTipsCells(tipsRow, 1, 0);
+	    		TipsCell tipsCell = new TipsCell(tipsRow, 1, 0);
     			leftTipsCells.add(tipsCell);
 	    	}
 	    }
@@ -120,7 +136,7 @@ public class ChessController {
 	    		} 
 	    		
 	    		if (tipsNum>0 && (ans[row][col] == 0 || row == 0)) {
-	    			TopTipsCells tipsCell = new TopTipsCells(tipsRow++, tipsCol, tipsNum);
+	    			TipsCell tipsCell = new TipsCell(tipsRow++, tipsCol, tipsNum);
 	    			topTipsCells.add(tipsCell);
 	    			tipsNum = 0;
 	    			hvTips = true;
@@ -128,10 +144,11 @@ public class ChessController {
 	    	}
 	    	
 	    	if (!hvTips){
-	    		TopTipsCells tipsCell = new TopTipsCells(1, tipsCol, 0);
+	    		TipsCell tipsCell = new TipsCell(1, tipsCol, 0);
 	    		topTipsCells.add(tipsCell);
 	    	}
 	    }
+	    */
 	}
 	
 	/**
@@ -145,32 +162,36 @@ public class ChessController {
 	 * @param cellStartY
 	 * @param cellSize
 	 * @param menuX
-	 * @param bClickType
+	 * @param clickType
 	 */
-	public void process(int x, int y, Dimension d, int cellRows, int cellCols, int cellStartX, int cellStartY, int cellSize, int menuX, String bClickType){
-		
-		
-		if (x > cellStartX && x < cellStartX + cellCols * cellSize && y > cellStartY && !bClear && hp > 0) {
+	/*
+	public void process(int x, int y, Dimension d, int cellRows, int cellCols, int cellStartX, int cellStartY, int cellSize, int menuX, String clickType){
+		if (x > cellStartX && x < cellStartX + cellCols * cellSize && y > cellStartY && !bClear && player.isAlive()) {
 			int row = (y-cellStartY)/cellSize;
 			int col = (x-cellStartX)/cellSize;
 			Cell cell = this.cells[row][col];
+			boolean bIsClickSameCell = false;
 			
-			if (bClickType == "LEFT") {
+			if (clickType == "LEFT") {
 				if (!cell.IsAns()){
 					// reduce player life
-					
-					if (--hp == 0)
-						chessUI.display("GAME_OVER");
+					player.decreaseHP(1);
+					player.display(chessUI);
 					
 					//chessUI.display("PLAYER_HP", hp);
 					chessUI.repaint();
 				}
 			}
 			
-			if (row != pRow || col != pCol) {
-				
-				
-				if (bClickType == "LEFT" || bClickType == "LEFT_DRAG") {
+			if (((clickType == "LEFT" || clickType == "LEFT_DRAG") && (pClickType == "LEFT" || pClickType == "LEFT_DRAG")) || clickType == pClickType) {
+				if (row == pRow && col == pCol) {
+					bIsClickSameCell = true;
+				}
+			}
+			
+			//if (row != pRow || col != pCol) {
+			if (!bIsClickSameCell) {
+				if (clickType == "LEFT" || clickType == "LEFT_DRAG") {
 					if (!cell.IsLeftSelect()) {
 						// check if it is ans
 						if (cell.IsAns()){
@@ -178,8 +199,9 @@ public class ChessController {
 							
 							// check clear
 							bClear = checkClear(cellRows, cellCols);
-						} else if (bClickType == "LEFT_DRAG") {
-							hp--;
+						} else if (clickType == "LEFT_DRAG") {
+							player.decreaseHP(1);
+							player.display(chessUI);
 							//chessUI.display("PLAYER", hp);
 						}
 						
@@ -189,33 +211,115 @@ public class ChessController {
 						}
 						chessUI.repaint();
 					}
-				} else if (bClickType == "RIGHT") {
+				} else if (clickType == "RIGHT") {
 					cell.setRightSelect(!cell.IsRightSelect());
 					chessUI.display("CLICK_CELLS", cells);
 					chessUI.repaint();
 				}
 			}
 			
+			pClickType = clickType;
 			pRow = row;
 			pCol = col;
-		} else if (x > menuX + 20 && x < d.width - 40 && y > 520 && y < 570) {
+		} else if (x > menuX + 20 && x < d.width - 40 && y > 520 && y < 570 && clickType == "LEFT") {
 			// restart button
 			chessUI.display("RESTART", cells);
-			hp =5;
+			player.restoreHP();
+			player.display(chessUI);
 			//chessUI.display("PLAYER_HP", hp);
 			restartGame(cellRows, cellCols);
 			chessUI.repaint();
-		} else if (x > menuX + 20 && x < d.width - 40 && y > 660 && y < 710) {
-			// quit button
-			System.exit( 0 );
+		} else if (x > menuX + 20 && x < d.width - 40 && y > 660 && y < 710 && clickType == "LEFT") {
+			// back button
+			//System.exit( 0 );
+			mainMenuController.setVisible(true);
+			//chessUI.setVisible(false);
+			chessUI.dispose();
+		}
+	}
+	*/
+	
+	public boolean LCprocess(int x, int y, int cellRows, int cellCols, int menuX) {
+		int screenW = chessUI.getSize().width;
+		
+		if (x > menuX + 20 && x < screenW - 40 && y > 520 && y < 570) {
+			// restart button process
+			chessUI.displayRestart(cells);
+			player.restoreHP();
+			player.display(chessUI);
+			restartGame(cellRows, cellCols);
+			chessUI.repaint();
+			return true;
+		} else if (x > menuX + 20 && x < screenW - 40 && y > 660 && y < 710) {
+			// back button process
+			mainMenuController.setVisible(true);
+			chessUI.dispose();
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	public void LDprocess(int row, int col, int cellRows, int cellCols) {
+		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
+			Cell cell = this.cells[row][col];
+			
+			if (!cell.IsLeftSelect() && !isClickSameCell(row, col)) {
+				if (cell.IsAns()){
+					cell.setLeftSelect(true);
+					
+					// check clear
+					bClear = checkClear(cellRows, cellCols);
+					chessUI.displaySelectedCells(cells);
+					if (bClear) {
+						chessUI.displayClear();
+					}
+				} else {//if (!cell.IsAns()){
+					// reduce player life
+					player.decreaseHP(1);
+					player.display(chessUI);
+				}
+				chessUI.repaint();
+			}
+			
+			pRow = row;
+			pCol = col;
 		}
 	}
 	
-	/*
-	public void process() {
-		chessUI.display("PLAYER", hp);
+	public void RCprocess(int row, int col, int cellCols) {
+		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
+			Cell cell = this.cells[row][col];
+			isSelectedOnRC = cell.IsRightSelect();
+		}
 	}
-	*/
+	
+	//public void RDprocess(int x, int y, int cellRows, int cellCols, int cellStartX, int cellStartY, int cellSize, int menuX) {
+	public void RDprocess(int row, int col, int cellCols) {
+		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
+			Cell cell = this.cells[row][col];
+			
+			if (!cell.IsLeftSelect() && !isClickSameCell(row, col)) {
+				//cell.setRightSelect(!cell.IsRightSelect());
+				cell.setRightSelect(!isSelectedOnRC);
+				chessUI.displaySelectedCells(cells);
+				chessUI.repaint();
+			}
+			
+			pRow = row;
+			pCol = col;
+		}
+	}
+	
+	public void mouseReleaseProcess(){
+		pRow = -1;
+		pCol = -1;
+	}
+	
+	private boolean isClickSameCell(int row, int col) {
+		return (row == pRow && col == pCol);
+	}
 	
 	/**
 	 * Unselect all the cell and restart the game
@@ -255,19 +359,93 @@ public class ChessController {
 	/**
 	 * Return the vector of all TopTipsCells.
 	 */
-	public Vector<TopTipsCells> getTopTipsCells() {
+	public Vector<TipsCell> getTopTipsCells() {
 		return topTipsCells;
 	}
 
 	/**
 	 * Return the vector of all LeftTipsCells.
 	 */
-	public Vector<LeftTipsCells> getLeftTipsCells() {
+	public Vector<TipsCell> getLeftTipsCells() {
 		return leftTipsCells;
 	}
 	
-	public int getHp() {
-		return hp;
+	public void displayHP(ChessUI chessUI) {
+		player.display(chessUI);
+	}
+	
+	private void initLeftTipsCells(int ans[][], Vector<TipsCell> tipsCells) {
+		int cellCols = ans[0].length;
+	    int cellRows = ans.length;
+		
+		for ( int row=0; row<cellRows; row++) {
+	    	int tipsNum = 0;
+	    	int tipsRow = row + 1;
+	    	int tipsCol = 1;
+	    	boolean hvTips = false;
+	    	
+	    	for ( int col=cellCols-1; col>=0; col-- ) {
+	    		if (ans[row][col]==1) {
+	    			tipsNum++;
+	    		} 
+	    		
+    			if (tipsNum>0 && (ans[row][col] == 0 || col == 0)) {
+	    			TipsCell tCell = new TipsCell(tipsRow, tipsCol++, tipsNum);
+	    			tipsCells.add(tCell);
+	    			tipsNum = 0;
+	    			hvTips = true;
+    			}
+	    	}
+	    	
+	    	if (!hvTips){
+	    		TipsCell tipsCell = new TipsCell(tipsRow, 1, 0);
+	    		tipsCells.add(tipsCell);
+	    	}
+	    }
+	}
+	
+	private void initTopTipsCells(int ans[][], Vector<TipsCell> tipsCells) {
+		int cellCols = ans[0].length;
+	    int cellRows = ans.length;
+	    
+		for ( int col=0; col<cellCols; col++) {
+	    	int tipsNum = 0;
+	    	int tipsRow = 1;
+	    	int tipsCol = col + 1;
+	    	boolean hvTips = false;
+	    	
+	    	for ( int row=cellRows-1; row>=0; row-- ) {
+	    		if (ans[row][col]==1) {
+	    			tipsNum++;
+	    		} 
+	    		
+	    		if (tipsNum>0 && (ans[row][col] == 0 || row == 0)) {
+	    			TipsCell tCell = new TipsCell(tipsRow++, tipsCol, tipsNum);
+	    			tipsCells.add(tCell);
+	    			tipsNum = 0;
+	    			hvTips = true;
+	    		}
+	    	}
+	    	
+	    	if (!hvTips){
+	    		TipsCell tipsCell = new TipsCell(1, tipsCol, 0);
+	    		tipsCells.add(tipsCell);
+	    	}
+	    }
+	}
+	
+	private Cell[][] initCells(int ans[][]) {
+		int cellCols = ans[0].length;
+	    int cellRows = ans.length;
+	    
+		cells = new Cell[cellRows][cellCols];
+	    for ( int row=0; row<cellRows; row++) {
+	    	for ( int col=0; col<cellCols; col++ ) {
+	    		cells[row][col] = new Cell(ans[row][col]==1 ? true : false);
+	    	}
+	    }
+	    
+	    return cells;
 	}
 	
 	public Cell[][] getAllCells(){

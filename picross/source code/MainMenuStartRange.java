@@ -8,4 +8,9 @@ public class MainMenuStartRange implements MainMenuCondition{
 			return false;
 		}
 	}
+	
+	public void process(MainMenuController mainMenuController){
+		// go stage selection
+		new StageController(mainMenuController);
+	}
 }
