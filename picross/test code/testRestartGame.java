@@ -51,7 +51,7 @@ public class testRestartGame extends TestCase{
 				{1, 1, 1, 1, 1},
 				{1, 1, 1, 1, 1}};
 		
-		test = new ChessController(5,5,ans,1,null);
+		test = new ChessController(1,ans,null,null);
 		
 	}
 

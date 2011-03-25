@@ -45,7 +45,7 @@ public class testClear extends TestCase{
 		int [][] ans = { {1, 1},
 						 {1, 1}};
 		
-		test = new ChessController(2, 2, ans, 1, null);
+		test = new ChessController(1, ans, null,null);
 	}
 
 	public void tearDown() {}

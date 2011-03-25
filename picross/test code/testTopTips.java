@@ -1,7 +1,7 @@
 package testpicross;
 import junit.framework.TestCase;
 import java.util.Vector;
-import picross.TopTipsCells;
+import picross.TipsCell;
 import picross.ChessController;
 
 import org.junit.Before;
@@ -11,7 +11,7 @@ public class testTopTips extends TestCase {
 	@Before
 	public void setUp() throws Exception {
 	}
-	public boolean checkTopTips(int cellRows, int cellCols, int[][] ans, Vector<TopTipsCells> topTipsCells){
+	public boolean checkTopTips(int cellRows, int cellCols, int[][] ans, Vector<TipsCell> topTipsCells){
 		int count = 0;
 		
 		for ( int col=0; col<cellCols; col++) {	 
@@ -35,7 +35,7 @@ public class testTopTips extends TestCase {
 		int [][] ans = { {0, 0, 1},
 						 {1, 0, 1},
 						 {0, 1, 1}};
-		ChessController test = new ChessController(3, 3, ans, 10, null);
+		ChessController test = new ChessController(10, ans, null,null);
 		assertEquals(checkTopTips(3,3,ans,test.getTopTipsCells()), true);
 	}
 	public void testTipsTop4x4(){
@@ -43,7 +43,7 @@ public class testTopTips extends TestCase {
 						 {1, 0, 1, 0},
 						 {0, 1, 1, 1},
 						 {1, 0, 0, 1}};
-		ChessController test = new ChessController(4, 4, ans, 10, null);
+		ChessController test = new ChessController(10, ans, null,null);
 		assertEquals(checkTopTips(4,4,ans,test.getTopTipsCells()), true);
 	}
 	public void testTipsTop5x5(){
@@ -52,7 +52,7 @@ public class testTopTips extends TestCase {
 						 {0, 1, 1, 1, 0},
 						 {1, 0, 0, 1, 1},
 						 {1, 0, 1, 0, 1}};
-		ChessController test = new ChessController(5, 5, ans, 10, null);
+		ChessController test = new ChessController(10, ans, null,null);
 		assertEquals(checkTopTips(5,5,ans,test.getTopTipsCells()), true);
 	}
 
