@@ -38,7 +38,7 @@ public class testChessCreateCell extends TestCase{
 						 {0, 0, 1, 0, 0},
 						 {0, 0, 1, 0, 0}};
 		
-		ChessController test = new ChessController(5,5,ans,1,null);
+		ChessController test = new ChessController(1,ans,null,null);
 		
 		assertEquals(checkequal(test.getAllCells(),ans,5,5),true);
 			
@@ -51,7 +51,7 @@ public class testChessCreateCell extends TestCase{
 		int [][] ans = { {0, 0},
 				 		 {1, 0}};
 		
-		ChessController test = new ChessController(2,2,ans,1,null);
+		ChessController test = new ChessController(1,ans,null,null);
 		
 		assertEquals(checkequal(test.getAllCells(),ans,2,2),true);
 			
@@ -70,7 +70,7 @@ public class testChessCreateCell extends TestCase{
 						 {0, 0, 1, 0, 0, 1},
 						 {0, 0, 1, 0, 0, 1}};
 		
-		ChessController test = new ChessController(6,6,ans,1,null);
+		ChessController test = new ChessController(1,ans,null,null);
 		
 		assertEquals(checkequal(test.getAllCells(),ans,6,6),true);
 			
@@ -86,7 +86,7 @@ public class testChessCreateCell extends TestCase{
 						 {0, 0, 1, 0, 0, 1},
 						 {0, 0, 1, 0, 0, 1}};
 		
-		ChessController test = new ChessController(5,6,ans,1,null);
+		ChessController test = new ChessController(1,ans,null,null);
 		assertEquals(checkequal(test.getAllCells(),ans,5,6),true);
 	}	
 	
