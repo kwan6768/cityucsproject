@@ -84,7 +84,7 @@ public class ChessUI extends JFrame {
 	/**  
     
 	serifFont Store font size, type and style.*/
-	private static Font serifFont = new Font("Serif", Font.BOLD, 40);
+	private Font serifFont = new Font("Serif", Font.BOLD, 40);
 	///////////////////////////////////////////
 	
 	private boolean bStart = false;
@@ -98,19 +98,19 @@ public class ChessUI extends JFrame {
      @param ans Indicate the answer of the question.
      @param cellSize Indicate the size of each cell which used for painting.  
      */
-	public ChessUI(int cellRows, int cellCols, int cellSize, int[][] ans) {
+	public ChessUI(int cellSize, int[][] ans, ChessController chessController) {
 		setTitle("Picoss Game");
 	    setSize(1024, 768);
 	    
-		this.cellCols = cellCols;
-		this.cellRows = cellRows;
+	    cellCols = ans[0].length;
+	    cellRows = ans.length;
 		this.cellSize = cellSize;
 		
 		cellStartX = (int)Math.ceil((double)cellCols / 2.0) * cellSize;
 		cellStartY = (int)Math.ceil((double)cellRows / 2.0) * cellSize;
 		menuX = cellStartX + cellCols * cellSize;
 		
-		chessController = new ChessController(cellRows, cellCols, ans, cellSize, this);
+		this.chessController = chessController;
 		
 		setBackground(new Color(0x999999));
 		
@@ -132,37 +132,54 @@ public class ChessUI extends JFrame {
 		
 		addMouseListener(
 	    	new MouseAdapter() {
-	    		/*
+	    		
 	    		public void mouseReleased(MouseEvent e) {
-	    			//draw(e.getX(), e.getY());
+	    			switch(e.getModifiers()) {
+		    			case InputEvent.BUTTON1_MASK:	// left click
+		    			case InputEvent.BUTTON3_MASK:	// right click
+		    				chessController.mouseReleaseProcess();
+		    				break;
+	    			}
 	    		}
-	        	*/
+	        	
 	    		public void mousePressed(MouseEvent e) {
-	    			Dimension d = getSize();
+	    			//Dimension d = getSize();
+	    			int x = e.getX();
+	    			int y = e.getY();
+	    			int row = (y-cellStartY)/cellSize;
+	    			int col = (x-cellStartX)/cellSize;
 	    			
 	    			switch(e.getModifiers()) {
-	    			case InputEvent.BUTTON1_MASK:	// left click
-	    				chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "LEFT");
-	    				break;
-	    			case InputEvent.BUTTON3_MASK:	// right click
-	    				chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "RIGHT");
-	    				break;
+		    			case InputEvent.BUTTON1_MASK:	// left click
+		    				//chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "LEFT");
+		    				if (!chessController.LCprocess(e.getX(), e.getY(), cellRows, cellCols, menuX)) {
+		    					chessController.LDprocess(row, col, cellRows, cellCols);
+		    				}
+		    				break;
+		    			case InputEvent.BUTTON3_MASK:	// right click
+		    				//chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "RIGHT");
+		    				chessController.RCprocess(row, col, cellCols);
+		    				chessController.RDprocess(row, col, cellCols);
+		    				break;
 	    			}
 	    		}
 	    	});
 
 		    addMouseMotionListener(new MouseMotionAdapter() {
 		    	public void mouseDragged(MouseEvent e) {
+	    			int row = (e.getY()-cellStartY)/cellSize;
+	    			int col = (e.getX()-cellStartX)/cellSize;
+	    			
 		    		if (bStart) {
-			    		Dimension d = getSize();
-			    		
 			    		switch(e.getModifiers()) {
 			    			case InputEvent.BUTTON1_MASK:	// left click
-			    				chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "LEFT_DRAG");
+			    				//chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "LEFT_DRAG");
+			    				chessController.LDprocess(row, col, cellRows, cellCols);
 			    				break;
 			    	      
 			    			case InputEvent.BUTTON3_MASK:	// right click
-			    				chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "RIGHT");
+			    				//chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "RIGHT");
+			    				chessController.RDprocess(row, col, cellCols);
 			    				break;
 			    		}	
 		    		} else {
@@ -212,74 +229,27 @@ public class ChessUI extends JFrame {
 	}
 	
 	/**
-	 * Display the screen of the state
+	 * Display the cells user selecting
 	 * @param state game state
 	 * @param cells all cells inside the chess
 	 */
-	public void display(String state, Cell cells[][]) {
-		
-		if (state == "CLICK_CELLS") {	// draw selected cell
-			for ( int row=0; row<cellRows; row++) {
-		    	for ( int col=0; col<cellCols; col++ ) {
-		    		if (cells[row][col].IsLeftSelect()) {			// left-clicked cells
-		    			chessBackg.setColor(Color.yellow);
-		    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
-		    		} else if (cells[row][col].IsRightSelect()) {	// right-clicked cells
-		    			chessBackg.setColor(Color.yellow);
-		    			chessBackg.drawLine(cellStartX + col * cellSize, cellStartY + row * cellSize, cellStartX + col * cellSize + cellSize - 2, cellStartY + row * cellSize + cellSize - 2);
-		    			chessBackg.drawLine(cellStartX + col * cellSize, cellStartY + row * cellSize + cellSize - 2, cellStartX + col * cellSize + cellSize - 2, cellStartY + row * cellSize);
-		    		} else {	// not click
-		    			chessBackg.setColor(Color.gray);
-		    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
-		    		}
-		    	}
-		    }
-		}
-		else if (state == "RESTART") {	// display restarted game, set the selected cells to "not selected"
-			chessBackg.setColor(Color.gray);
-			for ( int row=0; row<cellRows; row++) {
-		    	for ( int col=0; col<cellCols; col++ ) {
-		    		if (cells[row][col].IsLeftSelect() || cells[row][col].IsRightSelect()) {
-		    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
-		    		}
-		    	}
-		    }
-			chessBackg.setColor(getBackground());
-			chessBackg.fillRect(0, 0, 150, 100);
-		}
+	public void displaySelectedCells(Cell cells[][]) {
+		for ( int row=0; row<cellRows; row++) {
+	    	for ( int col=0; col<cellCols; col++ ) {
+	    		if (cells[row][col].IsLeftSelect()) {			// left-clicked cells
+	    			chessBackg.setColor(Color.yellow);
+	    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
+	    		} else if (cells[row][col].IsRightSelect()) {	// right-clicked cells
+	    			chessBackg.setColor(Color.yellow);
+	    			chessBackg.drawLine(cellStartX + col * cellSize, cellStartY + row * cellSize, cellStartX + col * cellSize + cellSize - 2, cellStartY + row * cellSize + cellSize - 2);
+	    			chessBackg.drawLine(cellStartX + col * cellSize, cellStartY + row * cellSize + cellSize - 2, cellStartX + col * cellSize + cellSize - 2, cellStartY + row * cellSize);
+	    		} else {	// not click
+	    			chessBackg.setColor(Color.gray);
+	    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
+	    		}
+	    	}
+	    }
 	}
-	
-	/**
-	 * Display the screen of the state
-	 * @param state game state
-	 */
-	public void display(String state) {
-		if (state == "CLEAR") {		// display clear game, draw a "CLEAR" text at the upper left con
-			chessBackg.setColor(Color.yellow);
-			chessBackg.setFont(serifFont);
-			chessBackg.drawString("CLEAR", 10, 100);
-		} else if (state == "GAME_OVER") {
-			chessBackg.setColor(Color.yellow);
-			chessBackg.setFont(serifFont);
-			chessBackg.drawString("GAME", 10, 70);
-			chessBackg.drawString("OVER", 10, 100);
-		}
-	}
-	
-	/*
-	public void display(String state, int hp) {
-		if (state == "PLAYER_HP") {
-			chessBackg.setColor(getBackground());
-			chessBackg.fillRect(850, 70, 120, 35);
-			
-			chessBackg.setColor(Color.yellow);
-			chessBackg.setFont(serifFont);
-			chessBackg.drawString("HP : " + String.valueOf(hp), 850, 100);
-			
-			
-		}
-	}
-	*/
 	
 	 /** 
      * Paint the elements on the screen
@@ -324,16 +294,20 @@ public class ChessUI extends JFrame {
 		    chessBackg.drawString("PAUSE", menuX/2 + d.width/2 - w/2, 630);
 		    chessBackg.drawRect(menuX + 20, 590, d.width - menuX - 40, 50);
 		    
-		    w = fm.stringWidth("QUIT");
-		    chessBackg.drawString("QUIT", menuX/2 + d.width/2 - w/2, 700);
+		    w = fm.stringWidth("BACK");
+		    chessBackg.drawString("BACK", menuX/2 + d.width/2 - w/2, 700);
 		    chessBackg.drawRect(menuX + 20, 660, d.width - menuX - 40, 50);
+		    
+		    chessController.displayHP(this);
 		}
 		
 		
 		g.drawImage(chessBuffer, 0, 0, null);
+		/*
 		g.setColor(Color.yellow);
 		g.setFont(serifFont);
 		g.drawString("HP : " + String.valueOf(chessController.getHp()), 850, 100);
+		*/
 		//chessController.process();
 		/*
 		g.setColor(Color.yellow);
@@ -344,4 +318,48 @@ public class ChessUI extends JFrame {
 	    */
 	    
 	}
+	
+	// display restarted game, set the selected cells to "not selected"
+	public void displayRestart(Cell cells[][]) {
+		chessBackg.setColor(Color.gray);
+		for ( int row=0; row<cellRows; row++) {
+	    	for ( int col=0; col<cellCols; col++ ) {
+	    		if (cells[row][col].IsLeftSelect() || cells[row][col].IsRightSelect()) {
+	    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
+	    		}
+	    	}
+	    }
+		chessBackg.setColor(getBackground());
+		chessBackg.fillRect(0, 0, 150, 100);
+	}
+	
+	// display clear game, draw a "CLEAR" text at the upper left con
+	public void displayClear() {
+		chessBackg.setColor(Color.yellow);
+		chessBackg.setFont(serifFont);
+		chessBackg.drawString("CLEAR", 10, 100);
+	}
+	
+	public void displayHP(int hp) {
+		// clean the previous hp text
+		chessBackg.setColor(getBackground());
+		chessBackg.fillRect(850, 70, 120, 35);
+		
+		// draw the updated hp text
+		chessBackg.setColor(Color.yellow);
+		chessBackg.setFont(serifFont);
+		chessBackg.drawString("HP : " + String.valueOf(hp), 850, 100);
+	}
+	
+	/**
+	 * Display the screen of the state
+	 * @param state game state
+	 */
+	public void displayGameOver() {
+		chessBackg.setColor(Color.yellow);
+		chessBackg.setFont(serifFont);
+		chessBackg.drawString("GAME", 10, 70);
+		chessBackg.drawString("OVER", 10, 100);
+	}
+	
 }

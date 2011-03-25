@@ -13,21 +13,21 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
-public class MainMenuUI extends JFrame{
+public class TutoUI extends JFrame {
 	/**
-	 * mainMenuController indicate the control class to control the main menu
+	 * tutoController indicate the control class to control the main menu
 	 */
-	private MainMenuController mainMenuController;
+	private TutoController tutoController;
 	
 	/**  
-     * 	menuBuffer Store the image and output.
+     * 	tutoBuffer Store the image and output.
      */
-	private Image menuBuffer;
+	private Image tutoBuffer;
 	
 	/**  
-     * menuBackg Store the image and output.
+     * tutoBackg Store the image and output.
      */
-	private Graphics menuBackg;
+	private Graphics tutoBackg;
 	
 	/**  
      * serifFont180 Store font size(180), type(Serif) and style(bold).
@@ -39,15 +39,11 @@ public class MainMenuUI extends JFrame{
      */
 	private Font serifFont40 = new Font("Serif", Font.BOLD, 40);
 	
-	
-	/**
-	 * Construct a main menu screen
-	 */
-	public MainMenuUI(){
+	public TutoUI(TutoController tutoController) {
+		this.tutoController = tutoController;
+		
 		setTitle("Picoss Game");
 	    setSize(1024, 768);
-	    
-	    mainMenuController = new MainMenuController(this);
 	    
 	    setBackground(Color.gray);
 		setVisible(true);
@@ -68,7 +64,7 @@ public class MainMenuUI extends JFrame{
 	    		public void mousePressed(MouseEvent e) {
 	    			switch(e.getModifiers()) {
 	    			case InputEvent.BUTTON1_MASK:	// left click
-	    				mainMenuController.process(e.getX(), e.getY());
+	    				tutoController.process(e.getX(), e.getY());
 	    				break;
 	    			case InputEvent.BUTTON3_MASK:	// right click
 	    				break;
@@ -83,36 +79,21 @@ public class MainMenuUI extends JFrame{
 	public void paint(Graphics g) {
 		Dimension d = getSize();
 		
-		if (menuBuffer == null) {
+		if (tutoBuffer == null) {
 			FontMetrics fm;
 			int w;
 			
-			menuBuffer = createImage(d.width, d.height);
-			menuBackg = menuBuffer.getGraphics();
+			tutoBuffer = createImage(d.width, d.height);
+			tutoBackg = tutoBuffer.getGraphics();
 			
 
-			menuBackg.setColor(Color.yellow);
-			menuBackg.setFont(serifFont180);
-			fm = menuBackg.getFontMetrics();
+			tutoBackg.setColor(Color.yellow);
+			tutoBackg.setFont(serifFont180);
+			fm = tutoBackg.getFontMetrics();
 			
-			w = fm.stringWidth("PICROSS");
-			menuBackg.drawString("PICROSS", d.width/2 - w/2, 300);
-			
-			menuBackg.setFont(serifFont40);
-			fm = menuBackg.getFontMetrics();
-			
-		    w = fm.stringWidth("START GAME");
-		    menuBackg.drawString("START GAME", d.width/2 - w/2, 490);
-		    menuBackg.drawRect(300, 450, d.width - 600, 50);
-		    
-		    w = fm.stringWidth("TUTORIAL");
-		    menuBackg.drawString("TUTORIAL", d.width/2 - w/2, 550);
-		    menuBackg.drawRect(300, 510, d.width - 600, 50);
-		    
-		    w = fm.stringWidth("QUIT");
-		    menuBackg.drawString("QUIT", d.width/2 - w/2, 610);
-		    menuBackg.drawRect(300, 570, d.width - 600, 50);
+			w = fm.stringWidth("Tutorial");
+			tutoBackg.drawString("Tutorial", d.width/2 - w/2, 300);
 		}
-		g.drawImage(menuBuffer, 0, 0, null);	    
+		g.drawImage(tutoBuffer, 0, 0, null);	    
 	}
 }

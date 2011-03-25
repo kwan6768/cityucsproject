@@ -1,56 +1,44 @@
 package picross;
 
-public class MainMenuController {
+import java.util.Vector;
+
+public class MainMenuController implements MainMenuConditionCreator{
 	private MainMenuUI mainMenuUI;
+	//private ChessController chessController;
+	private Vector<MainMenuCondition> conditions = new Vector<MainMenuCondition>();
 	
 	public MainMenuController(MainMenuUI mainMenuUI){
 		this.mainMenuUI = mainMenuUI;
+		
+		createCondition(new MainMenuStartRange());
+		createCondition(new MainMenuTutoRange());
+		createCondition(new MainMenuQuitRange());
+	}
+	
+	public void createCondition(MainMenuCondition condition){
+		conditions.add(condition);
 	}
 	
 	public void process(int x, int y) {
-		MainMenuCondition conditions[] = {new MainMenuStartRange(),
-										  new MainMenuTutoRange(),
-										  new MainMenuQuitRange()};
-		boolean bFulfill[] = new boolean[conditions.length];
-		
-		for (int i=0; i<conditions.length; i++){
-			bFulfill[i] = conditions[i].fulfill(x, y); 
-		}
-		
-		if (bFulfill[0] == true) {
-			// start game
-			int[][] ans = { {0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-					{0, 1, 1, 1, 0, 1, 1, 1, 0, 0},
-					{1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-					{1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-					{1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-					{0, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-					{0, 0, 1, 1, 1, 1, 1, 0, 0, 0},
-					{0, 0, 1, 1, 1, 1, 1, 0, 0, 0},
-					{0, 0, 0, 1, 1, 1, 0, 0, 0, 0},
-					{0, 0, 0, 0, 1, 0, 0, 0, 0, 0}};
-			int max;
-			int cellCols = ans[0].length;
-		    int cellRows = ans.length;
-		    
-		    if (cellCols > cellRows)
-		    	max = cellCols;
-		    else
-		    	max = cellRows;
-		
-		    max = 768 / (max+(int)Math.ceil((double)max / 2.0));
-		    int cellSize = max;
-		    
-		    ChessUI chessUI = new ChessUI(cellRows, cellCols, cellSize, ans);
-		    
-		    chessUI.getCmd();
-		    mainMenuUI.dispose();
-			
-		} else if (bFulfill[1] == true) {
-			// tuto
-		} else if (bFulfill[2] == true) {
-			// quit
-			System.exit(0);
+		for (int i=0; i<conditions.size(); i++){
+			if (conditions.get(i).fulfill(x, y)) {
+				conditions.get(i).process(this);
+			}
 		}
 	}
+	
+	public void dispose() {
+		mainMenuUI.dispose();
+		System.exit(0);
+	}
+	
+	public void setVisible(boolean bVal){
+		mainMenuUI.setVisible(bVal);
+	}
+	
+	/*
+	public void startGame(int cellRows, int cellCols, int cellSize, int ans[][]) {
+		chessController = new ChessController(cellRows, cellCols, cellSize, ans, this);
+	}
+	*/
 }

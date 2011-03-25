@@ -5,12 +5,7 @@
  */
 package picross;
 
-import javax.swing.JFrame;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
 /**
  *  
         

@@ -8,4 +8,10 @@ public class MainMenuTutoRange implements MainMenuCondition{
 			return false;
 		}
 	}
+	
+	public void process(MainMenuController mainMenuController){
+		//mainMenuUI.dispose();
+		//new TutoController
+		new TutoController(mainMenuController);
+	}
 }

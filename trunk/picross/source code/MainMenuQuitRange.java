@@ -8,4 +8,8 @@ public class MainMenuQuitRange implements MainMenuCondition{
 			return false;
 		}
 	}
+	
+	public void process(MainMenuController mainMenuController){
+		mainMenuController.dispose();
+	}
 }
