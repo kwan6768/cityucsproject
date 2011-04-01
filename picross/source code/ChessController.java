@@ -7,21 +7,16 @@ package picross;
 
 import java.util.Vector;
 /**
- *  
-        
-ChessController class is used to manage the game board.
- * @version      
-        
-Release 1.04 6 Mar 2011
- * @author          
-        
-Ben Chan, Steven Li, Ken Leung
+ * ChessController class is used to manage the game board.
+ * @version Release 1.04 6 Mar 2011
+ * @author Ben Chan, Steven Li, Ken Leung
  */
+
 public class ChessController {
 	
 	/**  
-    
-	bClear Indicate the game board is finished.*/
+	 * bClear Indicate if the game board is finished.
+	 * */
 	private boolean bClear;
 	
 	private Player player;
@@ -31,16 +26,19 @@ public class ChessController {
      */
 	private ChessUI chessUI;
 	
+	/**
+	 * The object of control class of main menu
+	 */
 	private MainMenuController mainMenuController;
 
     /**  
-    
-	cell Store all of the cell.*/
+     * cells Store all of the cell.
+     */
 	private Cell[][] cells;
 	
     /**  
-    
-	topTipsCells Store the tips on the top of the game board.*/
+     * topTipsCells Store the tips on the top of the game board.
+     */
 	private Vector<TipsCell> topTipsCells = new Vector<TipsCell>();
     /**  
     
@@ -57,19 +55,20 @@ public class ChessController {
 	 */
 	private int pCol;
 	
+	/**
+	 * isSelectedOnRC Indicate if the cell is right-clicked
+	 */
 	private boolean isSelectedOnRC;
-	//private String pClickType;
 	
-	//private int hp;
+	//private Vector<ChessCondition> conditions = new Vector<ChessCondition>();
 	
-    /**
-     * Construct a control class to control the screen and a game board by initialing cell's array, topTipsCells and leftTipsCells.
-     * @param cellRows Indicate the number of row of the game board.
-     * @param cellCols Indicate the number of column of the game board.
-     * @param ans Indicate the answer of the question.
-     * @param cellSize Indicate the size of each cell which used for painting.
-     * @param chessUI Indicate the UI to put the game board.
-     */
+	/**
+	 * Construct a control class to control the screen and a game board by initialing cell's array, topTipsCells and leftTipsCells.
+	 * @param cellSize Indicate the size of each cell which used for painting.
+	 * @param ans Indicate the answer of the question.
+	 * @param mainMenuController The object of control class of main menu
+	 * @param stageController The object of control class of stage
+	 */
 	public ChessController(int cellSize, int[][] ans, MainMenuController mainMenuController, StageController stageController){
 		bClear = false;
 		isSelectedOnRC = false;
@@ -81,7 +80,6 @@ public class ChessController {
 		chessUI.getCmd();
 		
 		if (mainMenuController != null) {
-			//mainMenuUI.dispose();
 			mainMenuController.setVisible(false);
 		}
 		
@@ -89,158 +87,41 @@ public class ChessController {
 			stageController.dispose();
 		}
 		
+		// set the hp of player as 5
 		player = new Player(5);
 		
-		// init cell inside chess
-		
-	    cells = initCells(ans);
+	    cells = initCells(ans);		// init cell inside chess
 	    initLeftTipsCells(ans, leftTipsCells);	// init left tips cell outside chess
 	    initTopTipsCells(ans, topTipsCells);	// init top tips cell outside chess
-	    /*
-	    for ( int row=0; row<cellRows; row++) {
-	    	int tipsNum = 0;
-	    	int tipsRow = row + 1;
-	    	int tipsCol = 1;
-	    	boolean hvTips = false;
-	    	
-	    	for ( int col=cellCols-1; col>=0; col-- ) {
-	    		if (ans[row][col]==1) {
-	    			tipsNum++;
-	    		} 
-	    		
-    			if (tipsNum>0 && (ans[row][col] == 0 || col == 0)) {
-	    			TipsCell tipsCell = new TipsCell(tipsRow, tipsCol++, tipsNum);
-	    			leftTipsCells.add(tipsCell);
-	    			tipsNum = 0;
-	    			hvTips = true;
-    			}
-	    	}
-	    	
-	    	if (!hvTips){
-	    		TipsCell tipsCell = new TipsCell(tipsRow, 1, 0);
-    			leftTipsCells.add(tipsCell);
-	    	}
-	    }
 	    
-	    
-	 // init top tips cell outside chess
-	    for ( int col=0; col<cellCols; col++) {
-	    	int tipsNum = 0;
-	    	int tipsRow = 1;
-	    	int tipsCol = col + 1;
-	    	boolean hvTips = false;
-	    	
-	    	for ( int row=cellRows-1; row>=0; row-- ) {
-	    		if (ans[row][col]==1) {
-	    			tipsNum++;
-	    		} 
-	    		
-	    		if (tipsNum>0 && (ans[row][col] == 0 || row == 0)) {
-	    			TipsCell tipsCell = new TipsCell(tipsRow++, tipsCol, tipsNum);
-	    			topTipsCells.add(tipsCell);
-	    			tipsNum = 0;
-	    			hvTips = true;
-	    		}
-	    	}
-	    	
-	    	if (!hvTips){
-	    		TipsCell tipsCell = new TipsCell(1, tipsCol, 0);
-	    		topTipsCells.add(tipsCell);
-	    	}
-	    }
-	    */
+	    //createCondition(new ChessBackRange());
+	    //createCondition(new ChessRestartRange());
 	}
 	
-	/**
-	 * The process to change the value of the cell based on user input, provide restart and exit option.
-	 * @param x The y-axis of mouse cursor
-	 * @param y The x-axis of mouse cursor
-	 * @param d The dimension of the windows
-	 * @param cellRows
-	 * @param cellCols
-	 * @param cellStartX
-	 * @param cellStartY
-	 * @param cellSize
-	 * @param menuX
-	 * @param clickType
-	 */
 	/*
-	public void process(int x, int y, Dimension d, int cellRows, int cellCols, int cellStartX, int cellStartY, int cellSize, int menuX, String clickType){
-		if (x > cellStartX && x < cellStartX + cellCols * cellSize && y > cellStartY && !bClear && player.isAlive()) {
-			int row = (y-cellStartY)/cellSize;
-			int col = (x-cellStartX)/cellSize;
-			Cell cell = this.cells[row][col];
-			boolean bIsClickSameCell = false;
-			
-			if (clickType == "LEFT") {
-				if (!cell.IsAns()){
-					// reduce player life
-					player.decreaseHP(1);
-					player.display(chessUI);
-					
-					//chessUI.display("PLAYER_HP", hp);
-					chessUI.repaint();
-				}
-			}
-			
-			if (((clickType == "LEFT" || clickType == "LEFT_DRAG") && (pClickType == "LEFT" || pClickType == "LEFT_DRAG")) || clickType == pClickType) {
-				if (row == pRow && col == pCol) {
-					bIsClickSameCell = true;
-				}
-			}
-			
-			//if (row != pRow || col != pCol) {
-			if (!bIsClickSameCell) {
-				if (clickType == "LEFT" || clickType == "LEFT_DRAG") {
-					if (!cell.IsLeftSelect()) {
-						// check if it is ans
-						if (cell.IsAns()){
-							cell.setLeftSelect(true);
-							
-							// check clear
-							bClear = checkClear(cellRows, cellCols);
-						} else if (clickType == "LEFT_DRAG") {
-							player.decreaseHP(1);
-							player.display(chessUI);
-							//chessUI.display("PLAYER", hp);
-						}
-						
-						chessUI.display("CLICK_CELLS", cells);
-						if (bClear) {
-							chessUI.display("CLEAR");
-						}
-						chessUI.repaint();
-					}
-				} else if (clickType == "RIGHT") {
-					cell.setRightSelect(!cell.IsRightSelect());
-					chessUI.display("CLICK_CELLS", cells);
-					chessUI.repaint();
-				}
-			}
-			
-			pClickType = clickType;
-			pRow = row;
-			pCol = col;
-		} else if (x > menuX + 20 && x < d.width - 40 && y > 520 && y < 570 && clickType == "LEFT") {
-			// restart button
-			chessUI.display("RESTART", cells);
-			player.restoreHP();
-			player.display(chessUI);
-			//chessUI.display("PLAYER_HP", hp);
-			restartGame(cellRows, cellCols);
-			chessUI.repaint();
-		} else if (x > menuX + 20 && x < d.width - 40 && y > 660 && y < 710 && clickType == "LEFT") {
-			// back button
-			//System.exit( 0 );
-			mainMenuController.setVisible(true);
-			//chessUI.setVisible(false);
-			chessUI.dispose();
-		}
+	public void createCondition(ChessCondition condition){
+		conditions.add(condition);
 	}
 	*/
 	
+	/**
+	 * The process of game on mouse left click
+	 * @param x The y-axis of mouse cursor
+	 * @param y The x-axis of mouse cursor
+	 * @param cellRows The total cell rows of the chess
+	 * @param cellCols The total cell columns of the chess
+	 * @param menuX The x-coordinate of menu
+	 */
 	public boolean LCprocess(int x, int y, int cellRows, int cellCols, int menuX) {
 		int screenW = chessUI.getSize().width;
+		
+		/*
+		for (int i=0; i<conditions.size(); i++) {
+			if (conditions.get(i).fulfill(x, y, menuX, screenW)){
+				conditions.get(i).process(this);
+			}
+		}
+		*/
 		
 		if (x > menuX + 20 && x < screenW - 40 && y > 520 && y < 570) {
 			// restart button process
@@ -258,9 +139,15 @@ public class ChessController {
 		} else {
 			return false;
 		}
-		
 	}
 	
+	/**
+	 * The process of game on mouse left draft
+	 * @param row The chess row under mouse cursor 
+	 * @param col The chess column under mouse cursor
+	 * @param cellRows The total cell rows of the chess
+	 * @param cellCols The total cell columns of the chess
+	 */
 	public void LDprocess(int row, int col, int cellRows, int cellCols) {
 		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
 			Cell cell = this.cells[row][col];
@@ -288,6 +175,12 @@ public class ChessController {
 		}
 	}
 	
+	/**
+	 * The process of game on mouse right click
+	 * @param row The chess row under mouse cursor 
+	 * @param col The chess column under mouse cursor
+	 * @param cellCols The total cell columns of the chess
+	 */
 	public void RCprocess(int row, int col, int cellCols) {
 		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
 			Cell cell = this.cells[row][col];
@@ -295,13 +188,17 @@ public class ChessController {
 		}
 	}
 	
-	//public void RDprocess(int x, int y, int cellRows, int cellCols, int cellStartX, int cellStartY, int cellSize, int menuX) {
+	/**
+	 * The process of game on mouse right draft
+	 * @param row The chess row under mouse cursor 
+	 * @param col The chess column under mouse cursor
+	 * @param cellCols The total cell columns of the chess
+	 */
 	public void RDprocess(int row, int col, int cellCols) {
 		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
 			Cell cell = this.cells[row][col];
 			
 			if (!cell.IsLeftSelect() && !isClickSameCell(row, col)) {
-				//cell.setRightSelect(!cell.IsRightSelect());
 				cell.setRightSelect(!isSelectedOnRC);
 				chessUI.displaySelectedCells(cells);
 				chessUI.repaint();
@@ -312,17 +209,25 @@ public class ChessController {
 		}
 	}
 	
+	/**
+	 * The process of game on releasing mouse click
+	 */
 	public void mouseReleaseProcess(){
 		pRow = -1;
 		pCol = -1;
 	}
 	
+	/**
+	 * Check if the cell the user click is the answer
+	 * @param row The chess row under mouse cursor 
+	 * @param col The chess column under mouse cursor
+	 */
 	private boolean isClickSameCell(int row, int col) {
 		return (row == pRow && col == pCol);
 	}
 	
 	/**
-	 * Unselect all the cell and restart the game
+	 * Restart the game by deselecting all the cell and 
 	 * @param cellRows The total rows of cells
 	 * @param cellCols The total columns of cells
 	 */
@@ -337,10 +242,9 @@ public class ChessController {
 	}
 	
 	/**
-	 * Unselect all the cell and restart the game
+	 * Check if the game is clear
 	 * @param cellRows The total rows of cells
 	 * @param cellCols The total columns of cells
-	 * @return
 	 */
 	public boolean checkClear(int cellRows, int cellCols) {
 		for (int row = 0; row < cellRows; row++){
@@ -370,10 +274,19 @@ public class ChessController {
 		return leftTipsCells;
 	}
 	
+	/**
+	 * Display HP on the screen
+	 * @param chessUI The object of boundary class of chess
+	 */
 	public void displayHP(ChessUI chessUI) {
 		player.display(chessUI);
 	}
 	
+	/**
+	 * Init all the left tips cells
+	 * @param ans The answer of the stage
+	 * @param tipsCells The cells of left tips
+	 */
 	private void initLeftTipsCells(int ans[][], Vector<TipsCell> tipsCells) {
 		int cellCols = ans[0].length;
 	    int cellRows = ans.length;
@@ -404,6 +317,11 @@ public class ChessController {
 	    }
 	}
 	
+	/**
+	 * Init all the top tips cells
+	 * @param ans The answer of the stage
+	 * @param tipsCells The cells of top tips
+	 */
 	private void initTopTipsCells(int ans[][], Vector<TipsCell> tipsCells) {
 		int cellCols = ans[0].length;
 	    int cellRows = ans.length;
@@ -434,6 +352,10 @@ public class ChessController {
 	    }
 	}
 	
+	/**
+	 * Init all the cells inside the chess
+	 * @param ans The answer of the stage
+	 */
 	private Cell[][] initCells(int ans[][]) {
 		int cellCols = ans[0].length;
 	    int cellRows = ans.length;

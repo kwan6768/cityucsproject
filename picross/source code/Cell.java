@@ -6,16 +6,9 @@
 
 package picross;
 /**
- *  
-        
-Cell class is used to store the information of each square on the game board.
- *
- * @version      
-        
-Release 1.04 6 Mar 2011
- * @author          
-        
-Ben Chan, Steven Li
+ * Cell class is used to store the information of each square on the game board.
+ * @version Release 1.04 6 Mar 2011
+ * @author Ben Chan, Steven Li
  */
 
 public class Cell {
@@ -39,14 +32,12 @@ public class Cell {
     /** 
      * Construct a cell which is not yet selected by user.
      */
-
 	public Cell(){
 		bIsLSelect = false;
 	}
 	
     /** 
-     * 
-     Construct a cell which should be selected by user but not yet selected.
+     * Construct a cell which should be selected by user but not yet selected.
      * @param bIsAns Indicate whether the cell is answer. 
      */
 	public Cell(boolean bIsAns){
@@ -77,7 +68,6 @@ public class Cell {
 	/**
      * Return boolean to indicate whether the user has left-clicked the cell.
      */
-
 	public boolean IsLeftSelect() {
 		return bIsLSelect;
 	}
@@ -90,8 +80,7 @@ public class Cell {
 	}
 	
     /**
-     * 
-	Return boolean to indicate whether the cell is the answer.
+     * Return boolean to indicate whether the cell is the answer.
      */
 	public boolean IsAns(){
 		return bIsAns;
