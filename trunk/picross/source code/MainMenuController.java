@@ -2,11 +2,25 @@ package picross;
 
 import java.util.Vector;
 
+/**
+ * MainMenuController is used to control main menu
+ * @author LI HO YIN
+ *
+ */
 public class MainMenuController implements MainMenuConditionCreator{
+	/**
+	 * mainMenuUI indicates boundary class of main menu
+	 */
 	private MainMenuUI mainMenuUI;
-	//private ChessController chessController;
+	/**
+	 * conditions stores the conditions of the main menu
+	 */
 	private Vector<MainMenuCondition> conditions = new Vector<MainMenuCondition>();
 	
+	/**
+	 * Constructs MainMenuController
+	 * @param mainMenuUI The object of boundary class of main menu
+	 */
 	public MainMenuController(MainMenuUI mainMenuUI){
 		this.mainMenuUI = mainMenuUI;
 		
@@ -14,11 +28,19 @@ public class MainMenuController implements MainMenuConditionCreator{
 		createCondition(new MainMenuTutoRange());
 		createCondition(new MainMenuQuitRange());
 	}
-	
+
+	/**
+	 * Callback from MainMenuConditionCreator
+	 */
 	public void createCondition(MainMenuCondition condition){
 		conditions.add(condition);
 	}
 	
+	/**
+	 * Do process under fulfillment of the condition(s)
+	 * @param x x-coordinate of mouse cursor
+	 * @param y y-coordinate of mouse cursor
+	 */
 	public void process(int x, int y) {
 		for (int i=0; i<conditions.size(); i++){
 			if (conditions.get(i).fulfill(x, y)) {
@@ -27,18 +49,19 @@ public class MainMenuController implements MainMenuConditionCreator{
 		}
 	}
 	
+	/**
+	 * Dispose the screen of main menu and exit program
+	 */
 	public void dispose() {
 		mainMenuUI.dispose();
 		System.exit(0);
 	}
 	
+	/**
+	 * Set the visibility of the screen of main menu
+	 * @param bVal Visibility
+	 */
 	public void setVisible(boolean bVal){
 		mainMenuUI.setVisible(bVal);
 	}
-	
-	/*
-	public void startGame(int cellRows, int cellCols, int cellSize, int ans[][]) {
-		chessController = new ChessController(cellRows, cellCols, cellSize, ans, this);
-	}
-	*/
 }

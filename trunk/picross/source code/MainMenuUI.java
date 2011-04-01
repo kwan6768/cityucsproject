@@ -13,6 +13,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
+/**
+ * MainMenuUI is used to be the user interface to interact with user.
+ * @version
+ * @author Steven Li
+ */
 public class MainMenuUI extends JFrame{
 	/**
 	 * mainMenuController indicate the control class to control the main menu
@@ -114,5 +119,13 @@ public class MainMenuUI extends JFrame{
 		    menuBackg.drawRect(300, 570, d.width - 600, 50);
 		}
 		g.drawImage(menuBuffer, 0, 0, null);	    
+	}
+	
+	/**
+     * main() for Picross game. Start the game and initiate MainMenuUI
+     */
+	public static void main(String args[]) {
+		MainMenuUI mainMenuUI = new MainMenuUI();
+		mainMenuUI.getCmd();
 	}
 }

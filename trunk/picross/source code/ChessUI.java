@@ -21,16 +21,9 @@ import java.util.Enumeration;
 import javax.swing.JFrame;
 
 /**
- *  
-        
-ChessUI is used to be the interface to interact with user.
- *
- * @version      
-        
-Release 1.04 6 Mar 2011
- * @author          
-        
-Ben Chan, Steven Li, Ken Leung
+ * ChessUI is used to be the user interface to interact with user.
+ * @version Release 1.04 6 Mar 2011
+ * @author Ben Chan, Steven Li, Ken Leung
  */
 
 
@@ -84,19 +77,15 @@ public class ChessUI extends JFrame {
 	/**  
     
 	serifFont Store font size, type and style.*/
-	private Font serifFont = new Font("Serif", Font.BOLD, 40);
-	///////////////////////////////////////////
+	private Font serifFont = new Font("Serif", Font.BOLD, 40);	
 	
 	private boolean bStart = false;
 	
 	 /** 
-     * 
-     Construct a game screen UI.
-     
-     @param cellRows Indicate the number of row of the game board.
-     @param cellCols Indicate the number of column of the game board.
-     @param ans Indicate the answer of the question.
-     @param cellSize Indicate the size of each cell which used for painting.  
+     * Construct a game screen UI.
+     * @param cellSize Indicate the size of each cell which used for painting.
+     * @param ans Indicate the answer of the question.
+     * @param chessController The object of control class of chess  
      */
 	public ChessUI(int cellSize, int[][] ans, ChessController chessController) {
 		setTitle("Picoss Game");
@@ -118,9 +107,7 @@ public class ChessUI extends JFrame {
 	}
 
 	 /** 
-     * 
-     Set up actionListener to get action from mouse
-    
+     * Set up actionListener to get action from mouse
      */
 	public void getCmd() {
 		
@@ -146,8 +133,10 @@ public class ChessUI extends JFrame {
 	    			//Dimension d = getSize();
 	    			int x = e.getX();
 	    			int y = e.getY();
-	    			int row = (y-cellStartY)/cellSize;
-	    			int col = (x-cellStartX)/cellSize;
+	    			//int row = (y-cellStartY)/cellSize;
+	    			//int col = (x-cellStartX)/cellSize;
+	    			int row = (int)Math.floor((double)((y-cellStartY))/cellSize);
+	    			int col = (int)Math.floor((double)((x-cellStartX))/cellSize);
 	    			
 	    			switch(e.getModifiers()) {
 		    			case InputEvent.BUTTON1_MASK:	// left click
@@ -167,8 +156,10 @@ public class ChessUI extends JFrame {
 
 		    addMouseMotionListener(new MouseMotionAdapter() {
 		    	public void mouseDragged(MouseEvent e) {
-	    			int row = (e.getY()-cellStartY)/cellSize;
-	    			int col = (e.getX()-cellStartX)/cellSize;
+	    			//int row = (e.getY()-cellStartY)/cellSize;
+	    			//int col = (e.getX()-cellStartX)/cellSize;
+		    		int row = (int)Math.floor((double)((e.getY()-cellStartY))/cellSize);
+	    			int col = (int)Math.floor((double)((e.getX()-cellStartX))/cellSize);
 	    			
 		    		if (bStart) {
 			    		switch(e.getModifiers()) {
@@ -190,8 +181,7 @@ public class ChessUI extends JFrame {
 	}
 	
 	 /** 
-     * 
-     Show the tips cell on the screen
+     * Display the tips cell on the screen
      */
 	public void displayTipsCells() {
 		Enumeration e;
@@ -230,7 +220,6 @@ public class ChessUI extends JFrame {
 	
 	/**
 	 * Display the cells user selecting
-	 * @param state game state
 	 * @param cells all cells inside the chess
 	 */
 	public void displaySelectedCells(Cell cells[][]) {
@@ -299,27 +288,18 @@ public class ChessUI extends JFrame {
 		    chessBackg.drawRect(menuX + 20, 660, d.width - menuX - 40, 50);
 		    
 		    chessController.displayHP(this);
+		    
 		}
+		//chessController.displayTime(this, g);
 		
 		
-		g.drawImage(chessBuffer, 0, 0, null);
-		/*
-		g.setColor(Color.yellow);
-		g.setFont(serifFont);
-		g.drawString("HP : " + String.valueOf(chessController.getHp()), 850, 100);
-		*/
-		//chessController.process();
-		/*
-		g.setColor(Color.yellow);
-	    if (chessController.isClear()) {
-	    	g.setFont(serifFont);
-	    	g.drawString("CLEAR", 0, 50);
-	    }
-	    */
-	    
+		g.drawImage(chessBuffer, 0, 0, null);    
 	}
 	
-	// display restarted game, set the selected cells to "not selected"
+	/**
+	 * Display restarted game. Turn yellow boxes to gray boxes.
+	 * @param cells All the cells inside the chess
+	 */
 	public void displayRestart(Cell cells[][]) {
 		chessBackg.setColor(Color.gray);
 		for ( int row=0; row<cellRows; row++) {
@@ -333,13 +313,19 @@ public class ChessUI extends JFrame {
 		chessBackg.fillRect(0, 0, 150, 100);
 	}
 	
-	// display clear game, draw a "CLEAR" text at the upper left con
+	/**
+	 * Display clear game. Draw a "CLEAR" text at the upper left corner
+	 */
 	public void displayClear() {
 		chessBackg.setColor(Color.yellow);
 		chessBackg.setFont(serifFont);
 		chessBackg.drawString("CLEAR", 10, 100);
 	}
 	
+	/**
+	 * Display the player HP at the upper right corner
+	 * @param hp The hp of the player
+	 */
 	public void displayHP(int hp) {
 		// clean the previous hp text
 		chessBackg.setColor(getBackground());
@@ -352,8 +338,7 @@ public class ChessUI extends JFrame {
 	}
 	
 	/**
-	 * Display the screen of the state
-	 * @param state game state
+	 * Display Game OVER at the upper left corner
 	 */
 	public void displayGameOver() {
 		chessBackg.setColor(Color.yellow);
@@ -361,5 +346,4 @@ public class ChessUI extends JFrame {
 		chessBackg.drawString("GAME", 10, 70);
 		chessBackg.drawString("OVER", 10, 100);
 	}
-	
 }
