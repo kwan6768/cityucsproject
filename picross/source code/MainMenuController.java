@@ -4,8 +4,8 @@ import java.util.Vector;
 
 /**
  * MainMenuController is used to control main menu
- * @author LI HO YIN
- *
+ * @version Release 1.07 23 Mar 2011
+ * @author Steven Li, Ben Chan
  */
 public class MainMenuController implements MainMenuConditionCreator{
 	/**
@@ -36,10 +36,6 @@ public class MainMenuController implements MainMenuConditionCreator{
 		conditions.add(condition);
 	}
 	
-
-	
-
-	
 	/**
 	 * Set the visibility of the screen of main menu
 	 * @param bVal Visibility
@@ -47,10 +43,7 @@ public class MainMenuController implements MainMenuConditionCreator{
 	public void setVisible(boolean bVal){
 		mainMenuUI.setVisible(bVal);
 	}
-	
 
-	
-	
 	/**
 	 * Do process under fulfillment of the condition(s)
 	 * @param x x-coordinate of mouse cursor
@@ -64,19 +57,14 @@ public class MainMenuController implements MainMenuConditionCreator{
 			}
 		}
 	}
-	
-
-	
+		
 	/**
 	 * Dispose the screen of main menu and exit program
 	 */
-
 	public void dispose() {
 		mainMenuUI.dispose();
 		System.exit(0);
 	}
-
-	
 	
 ///////////////////////////////function for testing////////////////////////////////
 /*

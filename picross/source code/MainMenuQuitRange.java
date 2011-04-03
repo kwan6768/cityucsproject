@@ -2,8 +2,8 @@ package picross;
 
 /**
  * MainMenuQuitRange checks range of quit button and does process to quit main menu
- * @version
- * @author 
+ * @version Release 1.07 23 Mar 2011
+ * @author Steven Li, Ben Chan
  */
 public class MainMenuQuitRange implements MainMenuCondition{
 	/**
@@ -19,8 +19,6 @@ public class MainMenuQuitRange implements MainMenuCondition{
 	public void process(MainMenuController mainMenuController){
 		mainMenuController.dispose();
 	}
-	
-	
 	
 	////////////function for testing////////////////////////////////
 	public String getName()

@@ -8,7 +8,7 @@ package picross;
 import java.util.Vector;
 /**
  * ChessController class is used to manage the game board.
- * @version Release 1.04 6 Mar 2011
+ * @version Release 1.05 6 Mar 2011
  * @author Ben Chan, Steven Li, Ken Leung
  */
 
@@ -19,6 +19,9 @@ public class ChessController {
 	 * */
 	private boolean bClear;
 	
+	/**
+	 * player Indicate the user playing
+	 */
 	private Player player;
 	
 	/**  
@@ -27,7 +30,7 @@ public class ChessController {
 	private ChessUI chessUI;
 	
 	/**
-	 * The object of control class of main menu
+	 * mainMenuController store the object of control class of main menu
 	 */
 	private MainMenuController mainMenuController;
 
@@ -41,8 +44,8 @@ public class ChessController {
      */
 	private Vector<TipsCell> topTipsCells = new Vector<TipsCell>();
     /**  
-    
-	leftTipsCells Store the tips on the left of the game board.*/
+     * leftTipsCells Store the tips on the left of the game board.
+     */
 	private Vector<TipsCell> leftTipsCells = new Vector<TipsCell>();
 	
 	/**
@@ -149,7 +152,32 @@ public class ChessController {
 	 * @param cellCols The total cell columns of the chess
 	 */
 	public void LDprocess(int row, int col, int cellRows, int cellCols) {
-		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
+		if (row >= 0 && row < cellRows && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
+			// check clear
+			
+			Cell cell = this.cells[row][col];
+					
+			if (!cell.IsLeftSelect() && !isClickSameCell(row, col)) {
+				if (cell.IsAns()){
+					cell.setLeftSelect(true);
+					
+					bClear = checkClear(cellRows, cellCols);
+					
+					chessUI.displayClear(bClear);
+					chessUI.displaySelectedCells(cells);
+				} else {//if (!cell.IsAns()){
+					// reduce player life
+					player.decreaseHP(1);
+					player.display(chessUI);
+				}
+				chessUI.repaint();
+			}
+			
+			pRow = row;
+			pCol = col;
+		}
+		/*
+		if (row >= 0 && row < cellRows && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
 			Cell cell = this.cells[row][col];
 			
 			if (!cell.IsLeftSelect() && !isClickSameCell(row, col)) {
@@ -173,6 +201,7 @@ public class ChessController {
 			pRow = row;
 			pCol = col;
 		}
+		*/
 	}
 	
 	/**
@@ -181,8 +210,8 @@ public class ChessController {
 	 * @param col The chess column under mouse cursor
 	 * @param cellCols The total cell columns of the chess
 	 */
-	public void RCprocess(int row, int col, int cellCols) {
-		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
+	public void RCprocess(int row, int col, int cellRows, int cellCols) {
+		if (row >= 0 && row < cellRows && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
 			Cell cell = this.cells[row][col];
 			isSelectedOnRC = cell.IsRightSelect();
 		}
@@ -194,8 +223,8 @@ public class ChessController {
 	 * @param col The chess column under mouse cursor
 	 * @param cellCols The total cell columns of the chess
 	 */
-	public void RDprocess(int row, int col, int cellCols) {
-		if (row >= 0 && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
+	public void RDprocess(int row, int col, int cellRows, int cellCols) {
+		if (row >= 0 && row < cellRows && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
 			Cell cell = this.cells[row][col];
 			
 			if (!cell.IsLeftSelect() && !isClickSameCell(row, col)) {
@@ -369,14 +398,13 @@ public class ChessController {
 	    
 	    return cells;
 	}
-	
+
+//////////////////////////////////////function add for testing///////////////////////////////////////
 	public Cell[][] getAllCells(){
 		return this.cells;
 		
 	}
 
-	
-	//////////////////////////////////////function add for testing///////////////////////////////////////
 	public ChessUI getChessUI()
 	{
 		return this.chessUI;

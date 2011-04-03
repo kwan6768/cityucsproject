@@ -13,6 +13,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
+/**
+ * StageUI is used to be the user interface to interact with user.
+ * @version Release 1.08 1 Apr 2011
+ * @author Steven Li, Ben Chan, Ken Leung
+ */
 public class StageUI extends JFrame {
 	/**
 	 * stageController indicate the control class to control the main menu
@@ -30,15 +35,19 @@ public class StageUI extends JFrame {
 	private Graphics stageBackg;
 	
 	/**  
-     * serifFont180 Store font size(180), type(Serif) and style(bold).
+     * serifFont120 Store font size(120), type(Serif) and style(bold).
      */
-	private Font serifFont180 = new Font("Serif", Font.BOLD, 180);
+	private Font serifFont120 = new Font("Serif", Font.BOLD, 120);
 	
 	/**  
      * serifFont40 Store font size(40), type(Serif) and style(bold).
      */
 	private Font serifFont40 = new Font("Serif", Font.BOLD, 40);
 	
+	/**
+	 * Constructs stage user interface
+	 * @param stageController Indicate the object of control class of stage
+	 */
 	public StageUI(StageController stageController) {
 		this.stageController = stageController;
 		
@@ -88,12 +97,38 @@ public class StageUI extends JFrame {
 			
 
 			stageBackg.setColor(Color.yellow);
-			stageBackg.setFont(serifFont180);
+			stageBackg.setFont(serifFont120);
 			fm = stageBackg.getFontMetrics();
 			
-			w = fm.stringWidth("Tutorial");
+			w = fm.stringWidth("Stage Selection");
 			stageBackg.drawString("Stage Selection", d.width/2 - w/2, 300);
+			
+			stageBackg.setFont(serifFont40);
+			fm = stageBackg.getFontMetrics();
+			
+		    w = fm.stringWidth("5 X 5");
+		    stageBackg.drawString("5 X 5", d.width/2 - w/2, 490);
+		    stageBackg.drawRect(300, 450, d.width - 600, 50);
+		    
+		    w = fm.stringWidth("10 X 10");
+		    stageBackg.drawString("10 X 10", d.width/2 - w/2, 550);
+		    stageBackg.drawRect(300, 510, d.width - 600, 50);
+		    
+		    w = fm.stringWidth("15 X 15");
+		    stageBackg.drawString("15 X 15", d.width/2 - w/2, 610);
+		    stageBackg.drawRect(300, 570, d.width - 600, 50);
 		}
 		g.drawImage(stageBuffer, 0, 0, null);	    
+	}
+	
+	/**
+	 * Display the error message due to incorrect answer 
+	 */
+	public void displayError() {
+		if (stageBuffer != null) {
+			stageBackg.setFont(serifFont40);
+			stageBackg.setColor(Color.yellow);
+			stageBackg.drawString("Error : answer is not correct format", 20, 100);
+		}
 	}
 }

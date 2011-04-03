@@ -6,35 +6,26 @@
 
 package picross;
 /**
- *  
-        
-ChessUI is used to be the interface to interact with user.
- *
- * @version      
-        
-Release 1.04 6 Mar 2011
- * @author          
-        
-Ben Chan, Steven Li, Ken Leung
+ * ChessUI is used to be the interface to interact with user.
+ * @version Release 1.05 6 Mar 2011
+ * @author Ben Chan, Steven Li, Ken Leung
  */
 public class TipsCell {
 	
 	/**  
 	 * row Indicate the y-axis of the cell.
-	 * */
+	 */
 	int row;
+	
 	/**  
 	 * col Indicate the s-axis of the cell.
 	 */
 	int col;
+	
 	/**  
 	 * tipsNum Indicate the tips number of the cell.
 	 */
 	int tipsNum;
-	/**
-	 * bIsLSelect Indicate whether the cell is selected.
-	 */
-	boolean bIsLSelect;
 	
 	/**
 	 * Construct the tip cell.
@@ -46,7 +37,6 @@ public class TipsCell {
 		this.row = row;
 		this.col = col;
 		this.tipsNum = tipsNum;
-		bIsLSelect = false;
 	}
 	
 	/**

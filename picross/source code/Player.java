@@ -2,8 +2,8 @@ package picross;
 
 /**
  * Player stores and manages the HP of the user
- * @version
- * @author Steven Li
+ * @version Release 1.07 23 Mar 2011
+ * @author Ken Leung
  */
 public class Player {
 	/**
