@@ -1,10 +1,6 @@
-package test;
+package testpicross;
 
 import junit.framework.TestCase;
-import picross.Cell;
-import picross.MainMenuController;
-import picross.StageController;
-import picross.TipsCell;
 import picross.ChessController;
 
 public class testChessController1 extends TestCase{

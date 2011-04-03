@@ -1,12 +1,7 @@
-package test;
+package testpicross;
 
 import junit.framework.TestCase;
-import picross.Cell;
-import picross.MainMenuController;
-import picross.StageController;
-import picross.TipsCell;
 import picross.ChessController;
-import picross.ChessUI;
 import stub.*;
 
 public class testChessController2 extends TestCase{
@@ -136,8 +131,8 @@ public class testChessController2 extends TestCase{
 		
 		assertEquals(test.getAllCells()[0][0].IsRightSelect(),false);
 		
-		test.RCprocess(0,0,2);
-		test.RDprocess(0,0,2);
+		test.RCprocess(0,0,2,2);
+		test.RDprocess(0,0,2,2);
 		
 		assertEquals(test.getAllCells()[0][0].IsRightSelect(),true);
 		
@@ -155,8 +150,8 @@ public class testChessController2 extends TestCase{
 		test.getAllCells()[0][0].setRightSelect(true);
 		assertEquals(test.getAllCells()[0][0].IsRightSelect(),true);
 		
-		test.RCprocess(0,0,2);
-		test.RDprocess(0,0,2);
+		test.RCprocess(0,0,2,2);
+		test.RDprocess(0,0,2,2);
 		
 		assertEquals(test.getAllCells()[0][0].IsRightSelect(),false);
 		
