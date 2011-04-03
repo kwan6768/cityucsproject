@@ -19,5 +19,12 @@ interface MainMenuCondition {
 	 * @param mainMenuController The object of the control class of main menu
 	 */
 	public void process(MainMenuController mainMenuController);
+	
+	
+	
+////////////function for testing////////////////////////////////	
+	public String getName();
+	
+	
 }
 

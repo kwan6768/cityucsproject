@@ -184,38 +184,40 @@ public class ChessUI extends JFrame {
      * Display the tips cell on the screen
      */
 	public void displayTipsCells() {
-		Enumeration e;
-		TipsCell c;
-	    int w;
-	    int h;
-	    
-	    FontMetrics fm = chessBackg.getFontMetrics();
-	    
-	    // draw left tips cells
-		e = chessController.getLeftTipsCells().elements();
-		
-	    while ( e.hasMoreElements() ) {
-	    	c = (TipsCell)e.nextElement();
-	    	String strTips = String.valueOf(c.getTipsNum());
-	    	w = fm.stringWidth(strTips);
-	    	h = fm.getAscent();
-	    	int row = c.getRow();
-	    	int col = c.getCol();
-	    	chessBackg.drawString(String.valueOf(strTips), (int)(cellStartX - col * cellSize + 0.5 * cellSize - w/2), (int)(cellStartY + (row-0.5) * cellSize + h/2));
-	    }
-	    
-	    // draw top tips cells
-	    e = chessController.getTopTipsCells().elements();
-	    
-	    while ( e.hasMoreElements() ) {
-	    	c = (TipsCell)e.nextElement();
-	    	String strTips = String.valueOf(c.getTipsNum());
-	    	w = fm.stringWidth(strTips);
-	    	h = fm.getAscent();
-	    	int row = c.getRow();
-	    	int col = c.getCol();
-	    	chessBackg.drawString(String.valueOf(strTips), (int)(cellStartX + (col-0.5) * cellSize - w/2), (int)(cellStartY - row * cellSize + 0.5 * cellSize + h/2));
-	    }
+		if (chessBuffer != null) {
+			Enumeration e;
+			TipsCell c;
+		    int w;
+		    int h;
+		    
+		    FontMetrics fm = chessBackg.getFontMetrics();
+		    
+		    // draw left tips cells
+			e = chessController.getLeftTipsCells().elements();
+			
+		    while ( e.hasMoreElements() ) {
+		    	c = (TipsCell)e.nextElement();
+		    	String strTips = String.valueOf(c.getTipsNum());
+		    	w = fm.stringWidth(strTips);
+		    	h = fm.getAscent();
+		    	int row = c.getRow();
+		    	int col = c.getCol();
+		    	chessBackg.drawString(String.valueOf(strTips), (int)(cellStartX - col * cellSize + 0.5 * cellSize - w/2), (int)(cellStartY + (row-0.5) * cellSize + h/2));
+		    }
+		    
+		    // draw top tips cells
+		    e = chessController.getTopTipsCells().elements();
+		    
+		    while ( e.hasMoreElements() ) {
+		    	c = (TipsCell)e.nextElement();
+		    	String strTips = String.valueOf(c.getTipsNum());
+		    	w = fm.stringWidth(strTips);
+		    	h = fm.getAscent();
+		    	int row = c.getRow();
+		    	int col = c.getCol();
+		    	chessBackg.drawString(String.valueOf(strTips), (int)(cellStartX + (col-0.5) * cellSize - w/2), (int)(cellStartY - row * cellSize + 0.5 * cellSize + h/2));
+		    }
+		}
 	}
 	
 	/**
@@ -223,21 +225,23 @@ public class ChessUI extends JFrame {
 	 * @param cells all cells inside the chess
 	 */
 	public void displaySelectedCells(Cell cells[][]) {
-		for ( int row=0; row<cellRows; row++) {
-	    	for ( int col=0; col<cellCols; col++ ) {
-	    		if (cells[row][col].IsLeftSelect()) {			// left-clicked cells
-	    			chessBackg.setColor(Color.yellow);
-	    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
-	    		} else if (cells[row][col].IsRightSelect()) {	// right-clicked cells
-	    			chessBackg.setColor(Color.yellow);
-	    			chessBackg.drawLine(cellStartX + col * cellSize, cellStartY + row * cellSize, cellStartX + col * cellSize + cellSize - 2, cellStartY + row * cellSize + cellSize - 2);
-	    			chessBackg.drawLine(cellStartX + col * cellSize, cellStartY + row * cellSize + cellSize - 2, cellStartX + col * cellSize + cellSize - 2, cellStartY + row * cellSize);
-	    		} else {	// not click
-	    			chessBackg.setColor(Color.gray);
-	    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
-	    		}
-	    	}
-	    }
+		if (chessBuffer != null) {
+			for ( int row=0; row<cellRows; row++) {
+		    	for ( int col=0; col<cellCols; col++ ) {
+		    		if (cells[row][col].IsLeftSelect()) {			// left-clicked cells
+		    			chessBackg.setColor(Color.yellow);
+		    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
+		    		} else if (cells[row][col].IsRightSelect()) {	// right-clicked cells
+		    			chessBackg.setColor(Color.yellow);
+		    			chessBackg.drawLine(cellStartX + col * cellSize, cellStartY + row * cellSize, cellStartX + col * cellSize + cellSize - 2, cellStartY + row * cellSize + cellSize - 2);
+		    			chessBackg.drawLine(cellStartX + col * cellSize, cellStartY + row * cellSize + cellSize - 2, cellStartX + col * cellSize + cellSize - 2, cellStartY + row * cellSize);
+		    		} else {	// not click
+		    			chessBackg.setColor(Color.gray);
+		    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
+		    		}
+		    	}
+		    }
+		}
 	}
 	
 	 /** 
@@ -301,25 +305,29 @@ public class ChessUI extends JFrame {
 	 * @param cells All the cells inside the chess
 	 */
 	public void displayRestart(Cell cells[][]) {
-		chessBackg.setColor(Color.gray);
-		for ( int row=0; row<cellRows; row++) {
-	    	for ( int col=0; col<cellCols; col++ ) {
-	    		if (cells[row][col].IsLeftSelect() || cells[row][col].IsRightSelect()) {
-	    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
-	    		}
-	    	}
-	    }
-		chessBackg.setColor(getBackground());
-		chessBackg.fillRect(0, 0, 150, 100);
+		if (chessBuffer != null) {
+			chessBackg.setColor(Color.gray);
+			for ( int row=0; row<cellRows; row++) {
+		    	for ( int col=0; col<cellCols; col++ ) {
+		    		if (cells[row][col].IsLeftSelect() || cells[row][col].IsRightSelect()) {
+		    			chessBackg.fillRect(cellStartX + col * cellSize, cellStartY + row * cellSize, cellSize - 1, cellSize - 1);
+		    		}
+		    	}
+		    }
+			chessBackg.setColor(getBackground());
+			chessBackg.fillRect(0, 0, 150, 100);
+		}
 	}
 	
 	/**
 	 * Display clear game. Draw a "CLEAR" text at the upper left corner
 	 */
 	public void displayClear() {
-		chessBackg.setColor(Color.yellow);
-		chessBackg.setFont(serifFont);
-		chessBackg.drawString("CLEAR", 10, 100);
+		if (chessBuffer != null) {
+			chessBackg.setColor(Color.yellow);
+			chessBackg.setFont(serifFont);
+			chessBackg.drawString("CLEAR", 10, 100);
+		}
 	}
 	
 	/**
@@ -327,23 +335,27 @@ public class ChessUI extends JFrame {
 	 * @param hp The hp of the player
 	 */
 	public void displayHP(int hp) {
-		// clean the previous hp text
-		chessBackg.setColor(getBackground());
-		chessBackg.fillRect(850, 70, 120, 35);
-		
-		// draw the updated hp text
-		chessBackg.setColor(Color.yellow);
-		chessBackg.setFont(serifFont);
-		chessBackg.drawString("HP : " + String.valueOf(hp), 850, 100);
+		if (chessBuffer != null) {
+			// clean the previous hp text
+			chessBackg.setColor(getBackground());
+			chessBackg.fillRect(850, 70, 120, 35);
+			
+			// draw the updated hp text
+			chessBackg.setColor(Color.yellow);
+			chessBackg.setFont(serifFont);
+			chessBackg.drawString("HP : " + String.valueOf(hp), 850, 100);
+		}
 	}
 	
 	/**
 	 * Display Game OVER at the upper left corner
 	 */
 	public void displayGameOver() {
-		chessBackg.setColor(Color.yellow);
-		chessBackg.setFont(serifFont);
-		chessBackg.drawString("GAME", 10, 70);
-		chessBackg.drawString("OVER", 10, 100);
+		if (chessBuffer != null) {
+			chessBackg.setColor(Color.yellow);
+			chessBackg.setFont(serifFont);
+			chessBackg.drawString("GAME", 10, 70);
+			chessBackg.drawString("OVER", 10, 100);
+		}
 	}
 }

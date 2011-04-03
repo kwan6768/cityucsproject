@@ -59,4 +59,16 @@ public class Player {
 	public boolean isAlive() {
 		return (curHP > 0);
 	}
+	
+	
+	////////////function for testing////////////////////////////////
+	public int getMaxHP()
+	{
+		return this.maxHP;
+	}
+	
+	public int getCurHP()
+	{
+		return this.curHP;
+	}
 }
