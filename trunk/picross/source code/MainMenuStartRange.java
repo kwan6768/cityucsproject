@@ -2,8 +2,8 @@ package picross;
 
 /**
  * MainMenuStartRange checks range of start button and does process to go to the stage selection menu
- * @version
- * @author 
+ * @version Release 1.07 23 Mar 2011
+ * @author Steven Li, Ben Chan
  */
 public class MainMenuStartRange implements MainMenuCondition{
 	/**

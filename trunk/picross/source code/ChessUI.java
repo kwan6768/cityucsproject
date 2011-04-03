@@ -22,63 +22,71 @@ import javax.swing.JFrame;
 
 /**
  * ChessUI is used to be the user interface to interact with user.
- * @version Release 1.04 6 Mar 2011
+ * @version Release 1.08 1 Apr 2011
  * @author Ben Chan, Steven Li, Ken Leung
  */
 
 
 public class ChessUI extends JFrame {
 	
-  /**  
-    
-	chessController indicate the control class to control the game.*/
+    /**
+     * chessController indicate the control class to control the game.
+     */
 	private ChessController chessController;
 	
 	/**  
-    
-	chessBuffer Store the image and output.*/
+	 * chessBuffer Store the image and output.
+	 */
 	private Image chessBuffer;
 	
 	/**  
-    
-	chessBackg Store the image and output.*/
+	 * chessBackg Store the image and output.
+	 */
 	private Graphics chessBackg;
 	
 	/**  
-    
-	cellCols Indicate the number of column of the game board.*/
+	 * cellCols Indicate the number of column of the game board.
+	 */
 	private int cellCols;
 	
-    /**  
-    
-	cellRows Indicate the number of row of the game board.*/
+    /**
+     * cellRows Indicate the number of row of the game board.
+     */
 	private int cellRows;
 	
-    /**  
-    
-	cellSize Indicate the size of each cell which used for painting.*/
+    /**
+     * cellSize Indicate the size of each cell which used for painting.
+     */
 	private int cellSize;
 	
     /**  
-    
-	cellStartX Indicate the starting X axis point to draw cell.*/
+     * cellStartX Indicate the starting X axis point to draw cell.
+     */
 	private int cellStartX;
 	
-    /**  
-    
-	cellStartY Indicate the starting Y axis point to draw cell.*/
+    /**
+     * cellStartY Indicate the starting Y axis point to draw cell.
+     */
 	private int cellStartY;
 	
-    /**  
-    
-	menuX Indicate the starting X axis point to draw the menu.*/
+    /**
+     * menuX Indicate the starting X axis point to draw the menu.
+     */
 	private int menuX;
 	
-	/**  
-    
-	serifFont Store font size, type and style.*/
-	private Font serifFont = new Font("Serif", Font.BOLD, 40);	
+	/**
+	 * serifFont Store font size(40), type(Serif) and style(bold).
+	 */
+	private Font serifFont40 = new Font("Serif", Font.BOLD, 40);
 	
+	/**
+	 * serifFont Store font size(20), type(Serif) and style(bold).
+	 */
+	private Font serifFont20 = new Font("Serif", Font.BOLD, 20);
+	
+	/**
+	 * bStart Indicate the game starts or not
+	 */
 	private boolean bStart = false;
 	
 	 /** 
@@ -123,6 +131,8 @@ public class ChessUI extends JFrame {
 	    		public void mouseReleased(MouseEvent e) {
 	    			switch(e.getModifiers()) {
 		    			case InputEvent.BUTTON1_MASK:	// left click
+		    				bStart = true;
+		    				break;
 		    			case InputEvent.BUTTON3_MASK:	// right click
 		    				chessController.mouseReleaseProcess();
 		    				break;
@@ -147,8 +157,8 @@ public class ChessUI extends JFrame {
 		    				break;
 		    			case InputEvent.BUTTON3_MASK:	// right click
 		    				//chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "RIGHT");
-		    				chessController.RCprocess(row, col, cellCols);
-		    				chessController.RDprocess(row, col, cellCols);
+		    				chessController.RCprocess(row, col, cellRows, cellCols);
+		    				chessController.RDprocess(row, col, cellRows, cellCols);
 		    				break;
 	    			}
 	    		}
@@ -170,11 +180,9 @@ public class ChessUI extends JFrame {
 			    	      
 			    			case InputEvent.BUTTON3_MASK:	// right click
 			    				//chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "RIGHT");
-			    				chessController.RDprocess(row, col, cellCols);
+			    				chessController.RDprocess(row, col, cellRows, cellCols);
 			    				break;
 			    		}	
-		    		} else {
-		    			bStart = true;
 		    		}
 		    	}
 		    });
@@ -185,10 +193,16 @@ public class ChessUI extends JFrame {
      */
 	public void displayTipsCells() {
 		if (chessBuffer != null) {
-			Enumeration e;
+			Enumeration<TipsCell> e;
 			TipsCell c;
 		    int w;
 		    int h;
+		    
+		    if (cellRows > 10 || cellCols > 10) {
+		    	chessBackg.setFont(serifFont20);
+		    } else {
+		    	chessBackg.setFont(serifFont40);
+		    }
 		    
 		    FontMetrics fm = chessBackg.getFontMetrics();
 		    
@@ -270,7 +284,7 @@ public class ChessUI extends JFrame {
 		    // draw left tips cells
 		    chessBackg.setColor(Color.yellow);
 		    
-		    chessBackg.setFont(serifFont);
+		    chessBackg.setFont(serifFont40);
 		    FontMetrics fm = chessBackg.getFontMetrics();
 		    
 		    // display left and top tips cells
@@ -278,14 +292,15 @@ public class ChessUI extends JFrame {
 		    
 		    // right windows - menu UI
 		    int w;
+		    chessBackg.setFont(serifFont40);
 		    
 		    w = fm.stringWidth("RESTART");
 		    chessBackg.drawString("RESTART", menuX/2 + d.width/2 - w/2, 560);
 		    chessBackg.drawRect(menuX + 20, 520, d.width - menuX - 40, 50);
 		    
-		    w = fm.stringWidth("PAUSE");
-		    chessBackg.drawString("PAUSE", menuX/2 + d.width/2 - w/2, 630);
-		    chessBackg.drawRect(menuX + 20, 590, d.width - menuX - 40, 50);
+		    //w = fm.stringWidth("PAUSE");
+		    //chessBackg.drawString("PAUSE", menuX/2 + d.width/2 - w/2, 630);
+		    //chessBackg.drawRect(menuX + 20, 590, d.width - menuX - 40, 50);
 		    
 		    w = fm.stringWidth("BACK");
 		    chessBackg.drawString("BACK", menuX/2 + d.width/2 - w/2, 700);
@@ -306,6 +321,7 @@ public class ChessUI extends JFrame {
 	 */
 	public void displayRestart(Cell cells[][]) {
 		if (chessBuffer != null) {
+			chessBackg.setFont(serifFont40);
 			chessBackg.setColor(Color.gray);
 			for ( int row=0; row<cellRows; row++) {
 		    	for ( int col=0; col<cellCols; col++ ) {
@@ -322,10 +338,10 @@ public class ChessUI extends JFrame {
 	/**
 	 * Display clear game. Draw a "CLEAR" text at the upper left corner
 	 */
-	public void displayClear() {
-		if (chessBuffer != null) {
+	public void displayClear(boolean bDispaly) {
+		if (chessBuffer != null && bDispaly) {
 			chessBackg.setColor(Color.yellow);
-			chessBackg.setFont(serifFont);
+			chessBackg.setFont(serifFont40);
 			chessBackg.drawString("CLEAR", 10, 100);
 		}
 	}
@@ -342,7 +358,7 @@ public class ChessUI extends JFrame {
 			
 			// draw the updated hp text
 			chessBackg.setColor(Color.yellow);
-			chessBackg.setFont(serifFont);
+			chessBackg.setFont(serifFont40);
 			chessBackg.drawString("HP : " + String.valueOf(hp), 850, 100);
 		}
 	}
@@ -353,7 +369,7 @@ public class ChessUI extends JFrame {
 	public void displayGameOver() {
 		if (chessBuffer != null) {
 			chessBackg.setColor(Color.yellow);
-			chessBackg.setFont(serifFont);
+			chessBackg.setFont(serifFont40);
 			chessBackg.drawString("GAME", 10, 70);
 			chessBackg.drawString("OVER", 10, 100);
 		}

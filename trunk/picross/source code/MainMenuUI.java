@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 
 /**
  * MainMenuUI is used to be the user interface to interact with user.
- * @version
+ * @version Release 1.07 23 Mar 2011
  * @author Steven Li
  */
 public class MainMenuUI extends JFrame{

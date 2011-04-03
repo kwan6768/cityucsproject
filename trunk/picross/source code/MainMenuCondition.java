@@ -2,8 +2,8 @@ package picross;
 
 /**
  * MainMenuCondition is the interface of all main menu conditions
- * @version
- * @author 
+ * @version Release 1.07 23 Mar 2011
+ * @author Steven Li 
  */
 
 interface MainMenuCondition {
@@ -19,8 +19,6 @@ interface MainMenuCondition {
 	 * @param mainMenuController The object of the control class of main menu
 	 */
 	public void process(MainMenuController mainMenuController);
-	
-	
 	
 ////////////function for testing////////////////////////////////	
 	public String getName();
