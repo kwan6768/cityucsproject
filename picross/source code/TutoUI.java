@@ -35,7 +35,7 @@ public class TutoUI extends JFrame {
 	private Graphics tutoBackg;
 	
 	/**  
-     * serifFont180 Store font size(40), type(Serif) and style(bold).
+     * serifFont40 Store font size(40), type(Serif) and style(bold).
      */
 	private Font serifFont40 = new Font("Serif", Font.BOLD, 40);
 	
