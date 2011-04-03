@@ -124,7 +124,7 @@ public class ChessController {
 		*/
 		
 		if (x > menuX + 20 && x < screenW - 40 && y > 520 && y < 570) {
-			// restart button process
+			//restart button process
 			chessUI.displayRestart(cells);
 			player.restoreHP();
 			player.display(chessUI);
@@ -374,4 +374,17 @@ public class ChessController {
 		return this.cells;
 		
 	}
+
+	
+	//////////////////////////////////////function add for testing///////////////////////////////////////
+	public ChessUI getChessUI()
+	{
+		return this.chessUI;
+	}
+	
+	public Player getPlayer()
+	{
+		return this.player;
+	}
+	
 }
