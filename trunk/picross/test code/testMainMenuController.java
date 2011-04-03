@@ -1,4 +1,4 @@
-package test;
+package testpicross;
 
 import junit.framework.TestCase;
 import picross.*;
@@ -54,6 +54,4 @@ public class testMainMenuController extends TestCase{
 		test.dispose();
 		assertEquals(test.getMainMenuUI().getState(),0);
 	}
-	
-	
 }

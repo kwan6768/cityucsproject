@@ -1,7 +1,6 @@
-package test;
+package testpicross;
 
 import junit.framework.TestCase;
-import picross.Cell;
 import picross.TipsCell;
 
 public class testTipsCell extends TestCase{

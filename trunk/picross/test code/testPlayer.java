@@ -1,4 +1,4 @@
-package test;
+package testpicross;
 
 import junit.framework.TestCase;
 import picross.Player;;
