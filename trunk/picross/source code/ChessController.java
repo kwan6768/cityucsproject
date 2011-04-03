@@ -260,7 +260,7 @@ public class ChessController {
 	 * @param cellRows The total rows of cells
 	 * @param cellCols The total columns of cells
 	 */
-	public void restartGame(int cellRows, int cellCols) {
+	private void restartGame(int cellRows, int cellCols) {
 		for (int row = 0; row < cellRows; row++){
 			for (int col = 0; col < cellCols; col++) {
 				cells[row][col].setLeftSelect(false);
@@ -275,7 +275,7 @@ public class ChessController {
 	 * @param cellRows The total rows of cells
 	 * @param cellCols The total columns of cells
 	 */
-	public boolean checkClear(int cellRows, int cellCols) {
+	private boolean checkClear(int cellRows, int cellCols) {
 		for (int row = 0; row < cellRows; row++){
 			for (int col = 0; col < cellCols; col++) {
 				if (cells[row][col].IsAns()){
