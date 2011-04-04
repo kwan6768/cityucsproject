@@ -38,11 +38,36 @@ public class MainMenuController implements MainMenuConditionCreator{
 	
 	/**
 	 * Set the visibility of the screen of main menu
-	 * @param bVal Visibility
+	 * @param bVal Boolean value to set visibility of the screen of main menu
 	 */
 	public void setVisible(boolean bVal){
 		mainMenuUI.setVisible(bVal);
 	}
+	
+	/**
+	 * Set the visibility of the screen of main menu
+	 * @param bVal Boolean value to set visibility of the screen of main menu
+	 * @param chessController The object of the control class of chess
+	 */
+	public void setVisible(boolean bVal, ChessController chessController){
+		mainMenuUI.setVisible(bVal);
+		if (chessController != null) {
+			chessController.dispose();
+		}
+	}
+	
+	/**
+	 * Set the visibility of the screen of main menu
+	 * @param bVal Boolean value to set visibility of the screen of main menu
+	 * @param tutoController The object of the control class of tutorial
+	 */
+	public void setVisible(boolean bVal, TutoController tutoController){
+		mainMenuUI.setVisible(bVal);
+		if (tutoController != null) {
+			tutoController.dispose();
+		}
+	}
+	
 
 	/**
 	 * Do process under fulfillment of the condition(s)

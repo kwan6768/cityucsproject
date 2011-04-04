@@ -136,8 +136,8 @@ public class ChessController {
 			return true;
 		} else if (x > menuX + 20 && x < screenW - 40 && y > 660 && y < 710) {
 			// back button process
-			mainMenuController.setVisible(true);
-			chessUI.dispose();
+			mainMenuController.setVisible(true, this);
+			//chessUI.dispose();
 			return true;
 		} else {
 			return false;
@@ -397,6 +397,13 @@ public class ChessController {
 	    }
 	    
 	    return cells;
+	}
+	
+	/**
+	 * Dispose the screen of main menu and exit program
+	 */
+	public void dispose() {
+		chessUI.dispose();
 	}
 
 //////////////////////////////////////function add for testing///////////////////////////////////////

@@ -36,8 +36,15 @@ public class TutoController {
 	public void process(int x, int y) {
 		// back to main menu
 		if (x > 300 && x < 724 && y > 640 && y < 690) {
-			mainMenuController.setVisible(true);
-			tutoUI.dispose();
+			mainMenuController.setVisible(true, this);
+			//tutoUI.dispose();
 		}
+	}
+	
+	/**
+	 * Dispose the screen of main menu and exit program
+	 */
+	public void dispose() {
+		tutoUI.dispose();
 	}
 }
