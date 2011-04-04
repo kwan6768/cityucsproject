@@ -147,7 +147,7 @@ public class ChessUI extends JFrame {
 	    			//int row = (y-cellStartY)/cellSize;
 	    			//int col = (x-cellStartX)/cellSize;
 	    			int row = calRowByUsingY(y, cellStartY, cellSize);
-	    			int col = calRowByUsingX(x, cellStartX, cellSize);
+	    			int col = calColByUsingX(x, cellStartX, cellSize);
 	    			
 	    			switch(e.getModifiers()) {
 		    			case InputEvent.BUTTON1_MASK:	// left click
@@ -170,7 +170,7 @@ public class ChessUI extends JFrame {
 		    		//int row = (int)Math.floor((double)((e.getY()-cellStartY))/cellSize);
 	    			//int col = (int)Math.floor((double)((e.getX()-cellStartX))/cellSize);
 		    		int row = calRowByUsingY(e.getY(), cellStartY, cellSize);
-	    			int col = calRowByUsingX(e.getX(), cellStartX, cellSize);
+	    			int col = calColByUsingX(e.getX(), cellStartX, cellSize);
 	    			
 		    		if (bStart) {
 			    		switch(e.getModifiers()) {
@@ -376,10 +376,22 @@ public class ChessUI extends JFrame {
 		}
 	}
 	
-	private int calRowByUsingX(int x, int cellStartX, int cellSize) {
+	/**
+	 * Return the column of chess cell according to the x-coordinate 
+	 * @param x x-coordinate of mouse cursor
+	 * @param cellStartX Indicate the starting X axis point to draw cell.
+	 * @param cellSize Indicate the size of each cell which used for painting.
+	 */
+	private int calColByUsingX(int x, int cellStartX, int cellSize) {
 		return (int)Math.floor((double)((x-cellStartX))/cellSize);
 	}
 	
+	/**
+	 * Return the row of chess cell according to the y-coordinate 
+	 * @param y y-coordinate of mouse cursor
+	 * @param cellStartY Indicate the starting Y axis point to draw cell.
+	 * @param cellSize Indicate the size of each cell which used for painting.
+	 */
 	private int calRowByUsingY(int y, int cellStartY, int cellSize) {
 		return (int)Math.floor((double)((y-cellStartY))/cellSize);
 	}
@@ -400,8 +412,8 @@ public class ChessUI extends JFrame {
 		return cellSize;
 	}
 	
-	public int testCalRowByUsingX(int x, int cellStartX, int cellSize) {
-		return calRowByUsingX(x, cellStartX, cellSize);
+	public int testCalColByUsingX(int x, int cellStartX, int cellSize) {
+		return calColByUsingX(x, cellStartX, cellSize);
 	}
 	
 	public int testCalRowByUsingY(int y, int cellStartY, int cellSize) {
