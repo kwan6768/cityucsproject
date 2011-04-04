@@ -10,6 +10,7 @@ public class testMainMenuController extends TestCase{
 
 	public void tearDown() {}
 	
+	/*
 	// Test case 1: no match any condition  (test process function)
 	public void testNotMatch() 
 	{
@@ -54,4 +55,6 @@ public class testMainMenuController extends TestCase{
 		test.dispose();
 		assertEquals(test.getMainMenuUI().getState(),0);
 	}
+	*/
+	
 }

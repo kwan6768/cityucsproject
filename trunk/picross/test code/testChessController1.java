@@ -9,6 +9,7 @@ public class testChessController1 extends TestCase{
 
 	public void tearDown() {}
 	
+	/*
 	// Test case 1: 0 1 ,0 1(test the initCells function)
 	public void testInitCells1() 
 	{
@@ -253,6 +254,6 @@ public class testChessController1 extends TestCase{
 		
 		assertEquals(test.checkClear(3,3),true);
 	}		
-	
+	*/
 	
 }
