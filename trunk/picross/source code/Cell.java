@@ -28,14 +28,6 @@ public class Cell {
 	 */
 	private boolean bIsRSelect;
 	
-	
-    /** 
-     * Construct a cell which is not yet selected by user.
-     */
-	public Cell(){
-		bIsLSelect = false;
-	}
-	
     /** 
      * Construct a cell which should be selected by user but not yet selected.
      * @param bIsAns Indicate whether the cell is answer. 
@@ -84,5 +76,10 @@ public class Cell {
      */
 	public boolean IsAns(){
 		return bIsAns;
+	}
+	
+	// for test
+	public Cell(){
+		bIsLSelect = false;
 	}
 }

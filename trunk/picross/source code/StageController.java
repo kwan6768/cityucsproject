@@ -31,8 +31,10 @@ public class StageController implements StageConditionCreator{
 		stageUI = new StageUI(this);
 		stageUI.getCmd();
 		
-		this.mainMenuController = mainMenuController;
-		mainMenuController.setVisible(false);
+		if (mainMenuController != null){
+			this.mainMenuController = mainMenuController;
+			mainMenuController.setVisible(false);
+		}
 		
 		createCondition(new StageRange1());
 		createCondition(new StageRange2());
@@ -115,5 +117,11 @@ public class StageController implements StageConditionCreator{
 	 */
 	public void dispose() {
 		stageUI.dispose();
+	}
+	
+	// test function
+	public boolean testValidateAns(int ans[][])
+	{
+		return validateAns(ans);
 	}
 }
