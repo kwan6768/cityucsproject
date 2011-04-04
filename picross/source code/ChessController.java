@@ -8,7 +8,7 @@ package picross;
 import java.util.Vector;
 /**
  * ChessController class is used to manage the game board.
- * @version Release 1.05 6 Mar 2011
+ * @version Release 1.05 10 Mar 2011
  * @author Ben Chan, Steven Li, Ken Leung
  */
 
@@ -215,6 +215,8 @@ public class ChessController {
 			Cell cell = this.cells[row][col];
 			isSelectedOnRC = cell.IsRightSelect();
 		}
+		
+		RDprocess(row, col, cellRows, cellCols);
 	}
 	
 	/**
@@ -225,10 +227,12 @@ public class ChessController {
 	 */
 	public void RDprocess(int row, int col, int cellRows, int cellCols) {
 		if (row >= 0 && row < cellRows && col >= 0 && col < cellCols && !bClear && player.isAlive()) {
-			Cell cell = this.cells[row][col];
+			
+			Cell cell = cells[row][col];
 			
 			if (!cell.IsLeftSelect() && !isClickSameCell(row, col)) {
 				cell.setRightSelect(!isSelectedOnRC);
+				//cell.setRightSelect(!cell.IsRightSelect());
 				chessUI.displaySelectedCells(cells);
 				chessUI.repaint();
 			}
@@ -421,5 +425,4 @@ public class ChessController {
 	{
 		return this.player;
 	}
-	
 }

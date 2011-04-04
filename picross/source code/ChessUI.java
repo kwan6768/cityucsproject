@@ -132,6 +132,7 @@ public class ChessUI extends JFrame {
 	    			switch(e.getModifiers()) {
 		    			case InputEvent.BUTTON1_MASK:	// left click
 		    				bStart = true;
+		    				chessController.mouseReleaseProcess();
 		    				break;
 		    			case InputEvent.BUTTON3_MASK:	// right click
 		    				chessController.mouseReleaseProcess();
@@ -145,20 +146,18 @@ public class ChessUI extends JFrame {
 	    			int y = e.getY();
 	    			//int row = (y-cellStartY)/cellSize;
 	    			//int col = (x-cellStartX)/cellSize;
-	    			int row = (int)Math.floor((double)((y-cellStartY))/cellSize);
-	    			int col = (int)Math.floor((double)((x-cellStartX))/cellSize);
+	    			int row = calRowByUsingY(y, cellStartY, cellSize);
+	    			int col = calRowByUsingX(x, cellStartX, cellSize);
 	    			
 	    			switch(e.getModifiers()) {
 		    			case InputEvent.BUTTON1_MASK:	// left click
-		    				//chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "LEFT");
 		    				if (!chessController.LCprocess(e.getX(), e.getY(), cellRows, cellCols, menuX)) {
 		    					chessController.LDprocess(row, col, cellRows, cellCols);
 		    				}
 		    				break;
 		    			case InputEvent.BUTTON3_MASK:	// right click
-		    				//chessController.process(e.getX(), e.getY(), d, cellRows, cellCols, cellStartX, cellStartY, cellSize, menuX, "RIGHT");
 		    				chessController.RCprocess(row, col, cellRows, cellCols);
-		    				chessController.RDprocess(row, col, cellRows, cellCols);
+		    				//chessController.RDprocess(row, col, cellRows, cellCols);
 		    				break;
 	    			}
 	    		}
@@ -168,8 +167,10 @@ public class ChessUI extends JFrame {
 		    	public void mouseDragged(MouseEvent e) {
 	    			//int row = (e.getY()-cellStartY)/cellSize;
 	    			//int col = (e.getX()-cellStartX)/cellSize;
-		    		int row = (int)Math.floor((double)((e.getY()-cellStartY))/cellSize);
-	    			int col = (int)Math.floor((double)((e.getX()-cellStartX))/cellSize);
+		    		//int row = (int)Math.floor((double)((e.getY()-cellStartY))/cellSize);
+	    			//int col = (int)Math.floor((double)((e.getX()-cellStartX))/cellSize);
+		    		int row = calRowByUsingY(e.getY(), cellStartY, cellSize);
+	    			int col = calRowByUsingX(e.getX(), cellStartX, cellSize);
 	    			
 		    		if (bStart) {
 			    		switch(e.getModifiers()) {
@@ -373,5 +374,37 @@ public class ChessUI extends JFrame {
 			chessBackg.drawString("GAME", 10, 70);
 			chessBackg.drawString("OVER", 10, 100);
 		}
+	}
+	
+	private int calRowByUsingX(int x, int cellStartX, int cellSize) {
+		return (int)Math.floor((double)((x-cellStartX))/cellSize);
+	}
+	
+	private int calRowByUsingY(int y, int cellStartY, int cellSize) {
+		return (int)Math.floor((double)((y-cellStartY))/cellSize);
+	}
+	
+	// for test function
+	public int getCellStartX()
+	{
+		return cellStartX;
+	}
+	
+	public int getCellStartY()
+	{
+		return cellStartY;
+	}
+	
+	public int getCellSize()
+	{
+		return cellSize;
+	}
+	
+	public int testCalRowByUsingX(int x, int cellStartX, int cellSize) {
+		return calRowByUsingX(x, cellStartX, cellSize);
+	}
+	
+	public int testCalRowByUsingY(int y, int cellStartY, int cellSize) {
+		return calRowByUsingY(y, cellStartY, cellSize);
 	}
 }
