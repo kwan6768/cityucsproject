@@ -105,7 +105,7 @@ public class Unmark extends TestCase{
 		
 		// test these 2 formula(copyed from ChessUI)
 		int row = test.getChessUI().testCalRowByUsingY(y, cellStartY, cellSize);
-		int col = test.getChessUI().testCalRowByUsingX(x, cellStartX, cellSize);
+		int col = test.getChessUI().testCalColByUsingX(x, cellStartX, cellSize);
 		
 		test.RCprocess(row, col, 2, 2);
 		assertEquals(test.getAllCells()[0][0].IsRightSelect(),false);
