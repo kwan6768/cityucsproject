@@ -54,7 +54,6 @@ public class Player {
 	
 	/**
 	 * Check if player is alive
-	 * @return
 	 */
 	public boolean isAlive() {
 		return (curHP > 0);

@@ -20,9 +20,11 @@ public class MainMenuQuitRange implements MainMenuCondition{
 		mainMenuController.dispose();
 	}
 	
+	/*
 	////////////function for testing////////////////////////////////
 	public String getName()
 	{
 		return "Quit";
 	}
+	*/
 }

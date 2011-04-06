@@ -20,13 +20,12 @@ public class MainMenuStartRange implements MainMenuCondition{
 		// go stage selection
 		new StageController(mainMenuController);
 	}
-
 	
-	
-	
+	/*
 ////////////function for testing////////////////////////////////
 	public String getName()
 	{
 		return "Start";
 	}
+	*/
 }

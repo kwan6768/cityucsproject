@@ -408,6 +408,7 @@ public class ChessController {
 	 */
 	public void dispose() {
 		chessUI.dispose();
+		chessUI = null;
 	}
 
 //////////////////////////////////////function add for testing///////////////////////////////////////
@@ -424,5 +425,14 @@ public class ChessController {
 	public Player getPlayer()
 	{
 		return this.player;
+	}
+	
+	public void testRestartGame(int cellRows, int cellCols)
+	{
+		restartGame(cellRows, cellCols);
+	}
+	
+	public boolean testCheckClear(int cellRows, int cellCols) {
+		return checkClear(cellRows, cellCols);
 	}
 }

@@ -88,10 +88,16 @@ public class MainMenuController implements MainMenuConditionCreator{
 	 */
 	public void dispose() {
 		mainMenuUI.dispose();
-		System.exit(0);
+		mainMenuUI = null;
+		//System.exit(0);
 	}
 	
 ///////////////////////////////function for testing////////////////////////////////
+	public MainMenuUI getMainMenuUI()
+ 	{
+ 		return this.mainMenuUI;
+ 	}
+	
 /*
  	public String process(int x, int y) {
 		for (int i=0; i<conditions.size(); i++){

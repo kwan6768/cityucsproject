@@ -71,8 +71,6 @@ public class TutoUI extends JFrame {
 	    			case InputEvent.BUTTON1_MASK:	// left click
 	    				tutoController.process(e.getX(), e.getY());
 	    				break;
-	    			case InputEvent.BUTTON3_MASK:	// right click
-	    				break;
 	    			}
 	    		}
 	    	});
