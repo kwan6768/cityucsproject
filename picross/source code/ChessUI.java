@@ -412,6 +412,11 @@ public class ChessUI extends JFrame {
 		return cellSize;
 	}
 	
+	public int getMenuX()
+	{
+		return menuX;
+	}
+	
 	public int testCalColByUsingX(int x, int cellStartX, int cellSize) {
 		return calColByUsingX(x, cellStartX, cellSize);
 	}

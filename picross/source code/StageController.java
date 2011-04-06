@@ -64,7 +64,7 @@ public class StageController implements StageConditionCreator{
 	 * Start the game of the answer on Chess user interface.
 	 * @param ans Indicate the answer of the question.
 	 */
-	public void startGame(int ans[][]) {
+	public boolean startGame(int ans[][]) {
 		if (validateAns(ans)){
 			int max;
 			int cellCols = ans[0].length;
@@ -79,9 +79,11 @@ public class StageController implements StageConditionCreator{
 		    int cellSize = max;
 		    
 		    new ChessController(cellSize, ans, mainMenuController, this);
+		    return true;
 		} else {
 			stageUI.displayError();
 			stageUI.repaint();
+			return false;
 		}
 	}
 	
@@ -117,11 +119,17 @@ public class StageController implements StageConditionCreator{
 	 */
 	public void dispose() {
 		stageUI.dispose();
+		stageUI = null;
 	}
 	
 	// test function
 	public boolean testValidateAns(int ans[][])
 	{
 		return validateAns(ans);
+	}
+	
+	public StageUI getStageUI()
+	{
+		return stageUI;
 	}
 }

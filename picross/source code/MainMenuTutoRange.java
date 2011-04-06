@@ -20,11 +20,11 @@ public class MainMenuTutoRange implements MainMenuCondition{
 		new TutoController(mainMenuController);
 	}
 	
-	
-	
+	/*
 ////////////function for testing////////////////////////////////
 	public String getName()
 	{
 		return "Tutor";
 	}
+	*/
 }

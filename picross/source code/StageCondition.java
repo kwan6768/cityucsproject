@@ -16,7 +16,7 @@ public interface StageCondition {
 	
 	/**
 	 * Do process on the condition of stage selection menu
-	 * @param mainMenuController The object of the control class of main menu
+	 * @param stageController The object of the control class of stage selection menu
 	 */
 	public void process(StageController stageController);
 }

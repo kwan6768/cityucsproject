@@ -46,5 +46,12 @@ public class TutoController {
 	 */
 	public void dispose() {
 		tutoUI.dispose();
+		tutoUI = null;
+	}
+	
+	// test function
+	public TutoUI getTutoUI()
+	{
+		return tutoUI;
 	}
 }

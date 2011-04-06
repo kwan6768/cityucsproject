@@ -131,4 +131,5 @@ public class StageUI extends JFrame {
 			stageBackg.drawString("Error : answer is not correct format", 20, 100);
 		}
 	}
+	
 }
