@@ -9,7 +9,6 @@ public class testChessController1 extends TestCase{
 
 	public void tearDown() {}
 	
-	/*
 	// Test case 1: 0 1 ,0 1(test the initCells function)
 	public void testInitCells1() 
 	{
@@ -171,7 +170,7 @@ public class testChessController1 extends TestCase{
 		assertEquals(test.getAllCells()[0][1].IsLeftSelect(),true);		
 		assertEquals(test.getAllCells()[0][1].IsRightSelect(),false);	
 		
-		test.restartGame(2, 2);
+		test.testRestartGame(2, 2);
 		
 		assertEquals(test.getAllCells()[0][0].IsLeftSelect(),false);
 		assertEquals(test.getAllCells()[0][0].IsRightSelect(),false);
@@ -197,7 +196,7 @@ public class testChessController1 extends TestCase{
 		assertEquals(test.getAllCells()[0][1].IsLeftSelect(),true);		
 		assertEquals(test.getAllCells()[0][1].IsRightSelect(),false);	
 		
-		test.restartGame(3,3);
+		test.testRestartGame(3,3);
 		
 		assertEquals(test.getAllCells()[0][0].IsLeftSelect(),false);
 		assertEquals(test.getAllCells()[0][0].IsRightSelect(),false);
@@ -216,14 +215,14 @@ public class testChessController1 extends TestCase{
 		test.getAllCells()[0][0].setRightSelect(true);
 		test.getAllCells()[0][1].setLeftSelect(true);
 
-		assertEquals(test.checkClear(2,2),false);
+		assertEquals(test.testCheckClear(2,2),false);
 		
-		test.restartGame(2,2);
+		test.testRestartGame(2,2);
 		
 		test.getAllCells()[0][1].setLeftSelect(true);
 		test.getAllCells()[1][1].setLeftSelect(true);
 		
-		assertEquals(test.checkClear(2,2),true);
+		assertEquals(test.testCheckClear(2,2),true);
 	}	
 	
 	// Test case 12: 1 0 1 ,1 1 1, 0 0 0 (test the checkClear function)
@@ -242,9 +241,9 @@ public class testChessController1 extends TestCase{
 		test.getAllCells()[1][1].setLeftSelect(true);
 		test.getAllCells()[1][2].setLeftSelect(true);
 
-		assertEquals(test.checkClear(2,2),false);
+		assertEquals(test.testCheckClear(2,2),false);
 		
-		test.restartGame(3,3);
+		test.testRestartGame(3,3);
 		
 		test.getAllCells()[0][0].setLeftSelect(true);
 		test.getAllCells()[0][2].setLeftSelect(true);
@@ -252,8 +251,7 @@ public class testChessController1 extends TestCase{
 		test.getAllCells()[1][1].setLeftSelect(true);
 		test.getAllCells()[1][2].setLeftSelect(true);
 		
-		assertEquals(test.checkClear(3,3),true);
+		assertEquals(test.testCheckClear(3,3),true);
 	}		
-	*/
 	
 }

@@ -2,45 +2,66 @@ package testpicross;
 
 import junit.framework.TestCase;
 import picross.*;
-import stub.*;
 
 public class testMainMenuController extends TestCase{
 
-	public void setUp() {}
+	private MainMenuController test;
+	public void setUp() 
+	{
+		test = new MainMenuController(new MainMenuUI());
+	}
 
 	public void tearDown() {}
 	
-	/*
+	
 	// Test case 1: no match any condition  (test process function)
 	public void testNotMatch() 
 	{
-		MainMenuController test = new MainMenuController(new StubMainMenuUI());
-		assertEquals(test.process(0, 0), "null");
+		try {
+			test.process(0, 0);
+			assertTrue(true);
+		} catch(Exception e) {
+			assertFalse(false);
+		}
 	}
+	
 	// Test case 2: match Quit condition  (test process function)	
 	public void testConditionQuit() 
 	{
-		MainMenuController test = new MainMenuController(new StubMainMenuUI());
-		assertEquals(test.process(400, 600), "Quit");
+		try {
+			test.process(400, 600);
+			assertTrue(true);
+		} catch(Exception e) {
+			assertFalse(false);
+		}
 	}
+	
 	// Test case 2: match Start condition  (test process function)		
 	public void testConditionStart() 
 	{
-		MainMenuController test = new MainMenuController(new StubMainMenuUI());
-		assertEquals(test.process(400, 470), "Start");
+		try {
+			test.process(400, 470);
+			assertTrue(true);
+		} catch(Exception e) {
+			assertFalse(false);
+		}
+		MainMenuController test = new MainMenuController(new MainMenuUI());
 	}
 
 	// Test case 3: match Tutor condition  (test process function)		
 	public void testConditionTutor() 
 	{
-		MainMenuController test = new MainMenuController(new StubMainMenuUI());
-		assertEquals(test.process(500, 550), "Tutor");
+		try {
+			test.process(500, 500);
+			assertTrue(true);
+		} catch(Exception e) {
+			assertFalse(false);
+		}
 	}
 
 	// Test case 4:( test setVisble() function)	
 	public void testSetVisiable()
 	{
-		MainMenuController test = new MainMenuController(new StubMainMenuUI());
 		assertEquals(test.getMainMenuUI().isVisible(),true);
 		
 		test.setVisible(false);
@@ -50,11 +71,9 @@ public class testMainMenuController extends TestCase{
 	
 	public void testDipose()
 	{
-		MainMenuController test = new MainMenuController(new StubMainMenuUI());
-		
 		test.dispose();
-		assertEquals(test.getMainMenuUI().getState(),0);
+		assertEquals(test.getMainMenuUI(),null);
 	}
-	*/
+	
 	
 }
