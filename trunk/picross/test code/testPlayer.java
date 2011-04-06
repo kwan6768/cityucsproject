@@ -1,7 +1,10 @@
 package testpicross;
 
 import junit.framework.TestCase;
-import picross.Player;;
+
+import picross.ChessController;
+import picross.Player;
+import picross.ChessUI;
 
 
 
@@ -87,7 +90,59 @@ public class testPlayer extends TestCase{
 		assertEquals(test.isAlive(),false);	
 	}
 	
+	// Test case: HP = 0, null pointer
+	public void testDisplay1()
+	{
+		try {
+			Player test = new Player(0);
+			test.display(null);
+			assertTrue(false);
+		} catch (Exception e) {
+			assertTrue(true);
+		}
+	}
 	
+	// Test case: HP = 0, not null pointer
+	public void testDisplay2()
+	{
+		int ans[][] = {{1,0},{1,0}};
+		
+		try {
+			Player test = new Player(0);
+			test.display(new ChessUI(10, ans, null));
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+	}
+	
+	// Test case: HP = 3, not null pointer
+	public void testDisplay3()
+	{
+		int ans[][] = {{1,0},{1,0}};
+		
+		try {
+			Player test = new Player(3);
+			test.display(new ChessUI(10, ans, null));
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+	}
+	
+	// Test case: HP = -2, not null pointer
+	public void testDisplay4()
+	{
+		int ans[][] = {{1,0},{1,0}};
+		
+		try {
+			Player test = new Player(-2);
+			test.display(new ChessUI(10, ans, null));
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+	}
 	
 	
 }

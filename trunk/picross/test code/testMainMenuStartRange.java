@@ -2,7 +2,6 @@ package testpicross;
 
 import junit.framework.TestCase;
 import picross.*;
-import stub.*;
 
 public class testMainMenuStartRange extends TestCase{
 
@@ -41,6 +40,6 @@ public class testMainMenuStartRange extends TestCase{
 	public void testProcess()
 	{
 		MainMenuStartRange test = new MainMenuStartRange();
-		test.process(new StubMainMenuController());
+		test.process(new MainMenuController(new MainMenuUI()));
 	}
 }

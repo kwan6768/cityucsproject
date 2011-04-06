@@ -15,10 +15,7 @@ public class Unmark extends TestCase{
 		int cellCols = ans1[0].length;
 	    int cellRows = ans1.length;
 	    
-	    if (cellCols > cellRows)
-	    	max = cellCols;
-	    else
-	    	max = cellRows;
+	    max = cellRows;
 	    
 	    max = 768 / (max+(int)Math.ceil((double)max / 2.0));
 	    int cellSize = max;
